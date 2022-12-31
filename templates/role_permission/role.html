@@ -33,11 +33,12 @@ TONEOP | Role
                                 <div class="header-title">
                                     <h4 class="card-title">Role</h4>
                                 </div>
-                                <button type="button" class="btn btn-primary mt-2"
-                                    class="btn btn-primary rounded-pill mt-2 mr-2" data-toggle="modal"
-                                    data-target="#Add-Role">
-                                    Add Role
-                                </button>
+                                <a href="{% url 'add_role' %}">
+                                    <button type="button" class="btn btn-primary mt-2"
+                                        class="btn btn-primary rounded-pill mt-2 mr-2">
+                                        Add Role
+                                    </button>
+                                </a>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">

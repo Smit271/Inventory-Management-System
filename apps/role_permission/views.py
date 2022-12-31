@@ -68,3 +68,30 @@ def role(request):
             "data": role_objs,
         }
         return render(request, 'role_permission/role.html', context)
+
+
+def add_role(request):
+    if request.method == 'GET':
+        role_objs = Roles.objects.values()
+        permission_objs = Permissions.objects.values()
+        context = {
+            "data": role_objs,
+            "permissions_list": permission_objs,
+        }
+        return render(request, 'role_permission/add_role.html', context)
+
+
+def create_role(request):
+    if request.method == 'POST':
+        print("===> request.POST: ", request.POST)
+        permission_ids = dict(request.POST)['permissions']
+        role_obj = Roles.objects.create(
+            name=request.POST['add_name'],
+            created_by=request.user
+        )
+        for permission in permission_ids:
+            role_obj.permissions.add(permission)
+
+        messages.success(request, "Role has been created with given permissions.")
+
+        return redirect(role)

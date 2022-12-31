@@ -2,7 +2,7 @@ from django.urls import path
 from .views import (
     permission, get_permission_detail, add_permission_data, edit_permission_data,
     delete_permission,
-    role
+    role, add_role, create_role
 )
 
 urlpatterns = [
@@ -16,6 +16,8 @@ urlpatterns = [
 
     # Role URLs
     path('role', role, name='role'),
+    path('add_role', add_role, name='add_role'),
+    path('create_role', create_role, name='create_role'),
     # path('get_role_detail/<int:id>',
     #      get_role_detail, name='get_role_detail'),
     # path('add_role_data', add_role_data, name='add_role_data'),
