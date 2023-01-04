@@ -85,9 +85,7 @@ def edit_product_data(request):
 
 def delete_product(request):
     product_obj = Products.objects.filter(id=request.POST['delete_id']).first()
-    product_obj.is_active = False
-    product_obj.is_delete = True
-    product_obj.save()
+    product_obj.delete()
 
     messages.success(request, "Product has been deleted.")
 
