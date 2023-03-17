@@ -1,11 +1,4 @@
-{% extends 'main/base.html' %}
-{% load static %}
-
-{% block title %}
-TONEOP | Role
-{% endblock %}
-
-{% block body %}
+{% extends 'main/base.html' %} {% load static %} {% block title %} TONEOP | Role {% endblock %} {% block body %}
 
 <body class="color-light ">
     <!-- loader Start -->
@@ -19,11 +12,13 @@ TONEOP | Role
         <div class="content-page">
             <div class="container-fluid">
                 {% if messages %}
-                    <ul class="messages">
-                        {% for message in messages %}
-                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                        {% endfor %}
-                    </ul>
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                        {{ message }}
+                    </li>
+                    {% endfor %}
+                </ul>
                 {% endif %}
                 <!-- Table -->
                 <div class="row">
@@ -34,8 +29,7 @@ TONEOP | Role
                                     <h4 class="card-title">Role</h4>
                                 </div>
                                 <a href="{% url 'add_role' %}">
-                                    <button type="button" class="btn btn-primary mt-2"
-                                        class="btn btn-primary rounded-pill mt-2 mr-2">
+                                    <button type="button" class="btn btn-primary mt-2" class="btn btn-primary rounded-pill mt-2 mr-2">
                                         Add Role
                                     </button>
                                 </a>
@@ -59,22 +53,13 @@ TONEOP | Role
                                                 <td>{{ role.is_active }}</td>
                                                 <td>
                                                     <div class="d-flex align-items-center list-action">
-                                                        {% comment %} <button type="button"
-                                                            class="btn btn-primary rounded-pill mt-2 mr-2"
-                                                            onClick="showRole({{ role.id }})" data-toggle="modal"
-                                                            data-target="#Show-Role">
+                                                        <button type="button" class="btn btn-primary rounded-pill mt-2 mr-2" onClick="showRole({{ role.id }})" data-toggle="modal" data-target="#Show-Role">
                                                             <i class="ri-eye-line mr-0"></i>
-                                                        </button> {% endcomment %}
-                                                        {% comment %} <button type="button"
-                                                            class="btn btn-success rounded-pill mt-2 mr-2"
-                                                            onClick="editRole({{ role.id }})" data-toggle="modal"
-                                                            data-target="#Edit-Role">
+                                                        </button>
+                                                        <button type="button" class="btn btn-success rounded-pill mt-2 mr-2" onClick="editRole({{ role.id }})" data-toggle="modal" data-target="#Edit-Role">
                                                             <i class="ri-pencil-line mr-0"></i>
-                                                        </button> {% endcomment %}
-                                                        <button type="button"
-                                                            class="btn btn-secondary rounded-pill mt-2"
-                                                            onClick="deleteRole({{ role.id }})"
-                                                            data-toggle="modal" data-target="#Delete-Role">
+                                                        </button>
+                                                        <button type="button" class="btn btn-secondary rounded-pill mt-2" onClick="deleteRole({{ role.id }})" data-toggle="modal" data-target="#Delete-Role">
                                                             <i class="ri-delete-bin-line mr-0"></i>
                                                         </button>
                                                     </div>
@@ -90,8 +75,7 @@ TONEOP | Role
                 </div>
 
                 <!-- Show Modal -->
-                <div class="modal fade" id="Show-Role" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal fade" id="Show-Role" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -105,43 +89,34 @@ TONEOP | Role
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label>Table Name *</label>
-                                                <input type="text" class="form-control" placeholder="Enter Table Name"
-                                                    id="show_table_name" data-errors="Please Enter Table Name."
-                                                    name="show_table_name" required>
-                                                <div class="help-block with-errors"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
                                                 <label>Name *</label>
-                                                <input type="text" class="form-control" placeholder="Enter Name"
-                                                    id="show_name" data-errors="Please Enter Name." required>
+                                                <input type="text" class="form-control" placeholder="Enter Name" id="show_name" name="show_name" required readonly>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <div class="form-group">
-                                                <label>Code *</label>
-                                                <input type="text" class="form-control" placeholder="Enter Code"
-                                                    id="show_code" data-errors="Please Enter Code."
-                                                    required>
-                                                <div class="help-block with-errors"></div>
+                                                <label>Permissions *</label>
+                                                <select name="show_permissions" class="select2 selectpicker form-control" data-style="py-0" multiple="multiple">
+                                                    {% for per in permissions_list %}
+                                                    <option value="{{per.id}}" aria-readonly="true">{{per.name}}
+                                                    </option>
+                                                    {% endfor %}
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
                                 </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Delete-Modal -->
-                <div class="modal fade" id="Delete-Role" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="Delete-Role" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <form method="post" action="delete_role">
@@ -164,16 +139,57 @@ TONEOP | Role
                         </div>
                     </div>
                 </div>
+
+                <!-- Edit Modal -->
+                <div class="modal fade" id="Edit-Role" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Edit Role</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="edit_role_data" data-toggle="validator" method="post">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Name *</label>
+                                                <input type="hidden" class="form-control" id="edit_id" name="edit_id">
+                                                <input type="text" class="form-control" placeholder="Enter Name" id="edit_name" data-errors="Please Enter Model No." name="edit_name" required>
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Permissions *</label>
+                                                <select name="edit_permissions" class="select2 selectpicker form-control" data-style="py-0" multiple="multiple">
+                                                    {% for per in permissions_list %}
+                                                    <option value="{{per.id}}">{{per.name}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary mr-2">Update</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </body>
 
-{% endblock %}
-
-{% block jquery %}
+{% endblock %} {% block jquery %}
 <script>
-    $(document).ready(function(){
+    $(document).ready(function() {
         $('#list_roles').addClass('active');
     });
 </script>
@@ -187,12 +203,31 @@ TONEOP | Role
                 type: 'get',
                 async: false,
                 cache: false,
-                success: function (data) {
+                success: function(data) {
+                    $('#show_name').val(data['name']);
+                    $('select[name=show_permissions]').val(data['permissions_list']);
+                    $('.selectpicker').selectpicker('refresh');
+                }
+            });
+        }
+    }
+</script>
+
+<!-- Edit Functionality -->
+<script>
+    function editRole(id) {
+        if (id) {
+            $.ajax({
+                url: `get_role_detail/${id}`,
+                type: 'get',
+                async: false,
+                cache: false,
+                success: function(data) {
                     console.log(data)
-                    $('#show_id').val(data[0]['id']);
-                    $('#show_table_name').val(data[0]['table_name']);
-                    $('#show_name').val(data[0]['name']);
-                    $('#show_code').val(data[0]['code']);
+                    $('#edit_id').val(data['id']);
+                    $('#edit_name').val(data['name']);
+                    $('select[name=edit_permissions]').val(data['permissions_list']);
+                    $('.selectpicker').selectpicker('refresh');
                 }
             });
         }

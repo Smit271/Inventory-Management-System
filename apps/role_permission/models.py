@@ -33,8 +33,19 @@ class Roles(models.Model):
 
     objects = RolesManager()
 
-    def __str__(self) -> str:
+    def __str__(self):
         return self.name
+
+    def get_full_details(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'created_by_id': self.created_by.id if self.created_by else None,
+            'created_by_name': self.created_by.name if self.created_by else None,
+            'permissions': list(self.permissions.values()),
+            'permissions_list': [id['id'] for id in self.permissions.values('id')],
+            # 'assigned_user_list': 
+        }
 
     class Meta:
         db_table = 'roles'

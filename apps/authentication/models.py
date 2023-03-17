@@ -30,5 +30,17 @@ class User(AbstractUser):
     def get_full_name(self):
         return self.name
 
+    def get_user_details(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'email': self.email,
+            'phone': self.phone,
+            'role': self.role,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'date_joined': self.date_joined,
+        }
+
     class Meta:
         db_table = "users"

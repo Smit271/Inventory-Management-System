@@ -7,6 +7,8 @@ from role_permission.models import (
 )
 
 # Permissions Views
+
+
 def permission(request):
     if request.method == 'GET':
         permission_objs = Permissions.objects.values()
@@ -64,8 +66,10 @@ def delete_permission(request):
 def role(request):
     if request.method == 'GET':
         role_objs = Roles.objects.values()
+        permissions_list = Permissions.objects.values()
         context = {
             "data": role_objs,
+            "permissions_list": permissions_list,
         }
         return render(request, 'role_permission/role.html', context)
 
@@ -92,6 +96,30 @@ def create_role(request):
         for permission in permission_ids:
             role_obj.permissions.add(permission)
 
-        messages.success(request, "Role has been created with given permissions.")
+        messages.success(
+            request, "Role has been created with given permissions.")
 
         return redirect(role)
+
+
+def get_role_detail(request, id):
+    roles_data = Roles.objects.get(
+        id=id
+    ).get_full_details()
+
+    # print("===> roles_data: ", roles_data)
+    return JsonResponse(roles_data, safe=False)
+
+
+def edit_role_data(request):
+    role_obj = Roles.objects.filter(
+        id=request.POST['edit_id']).first()
+    
+    permission_ids = dict(request.POST)['edit_permissions']
+    role_obj.name = request.POST['edit_name']
+    role_obj.permissions.set(permission_ids)
+    role_obj.save()
+
+    messages.success(request, "Role has been updated.")
+
+    return redirect(role)

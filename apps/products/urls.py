@@ -21,8 +21,10 @@ urlpatterns = [
     path('device_type', device_type, name='device_type'),
     path('get_device_type_detail/<int:id>',
          get_device_type_detail, name='get_device_type_detail'),
-    path('add_device_type_data', add_device_type_data, name='add_device_type_data'),
-    path('edit_device_type_data', edit_device_type_data, name='edit_device_type_data'),
+    path('add_device_type_data', add_device_type_data,
+         name='add_device_type_data'),
+    path('edit_device_type_data', edit_device_type_data,
+         name='edit_device_type_data'),
     path('delete_device_type', delete_device_type, name='delete_device_type'),
 
     # Location URLs

@@ -4,7 +4,6 @@ from django.contrib import messages
 from django.contrib.auth import login
 
 
-
 def login_view(request):
     if request.method == 'GET':
         return render(request, 'authentication/login.html')
@@ -23,4 +22,3 @@ def login_view(request):
             else:
                 messages.warning(request, message="Wrong credentials.")
                 return render(request, 'authentication/login.html')
-

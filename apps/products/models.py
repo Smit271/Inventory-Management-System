@@ -10,11 +10,12 @@ class DeviceType(models.Model):
 
     def __str__(self):
         return self.name
-    
-    def delete(self,*args,**kwargs):
-        if self.is_deleted : return
-        self.is_deleted=True
-        self.is_active=False
+
+    def delete(self, *args, **kwargs):
+        if self.is_deleted:
+            return
+        self.is_deleted = True
+        self.is_active = False
         self.save()
 
     class Meta:
@@ -28,11 +29,12 @@ class Location(models.Model):
 
     def __str__(self):
         return self.name
-    
-    def delete(self,*args,**kwargs):
-        if self.is_deleted : return
-        self.is_deleted=True
-        self.is_active=False
+
+    def delete(self, *args, **kwargs):
+        if self.is_deleted:
+            return
+        self.is_deleted = True
+        self.is_active = False
         self.save()
 
     class Meta:
@@ -60,11 +62,12 @@ class Products(models.Model):
     def __str__(self):
         return self.model_no
 
-    def delete(self,*args,**kwargs):
-        if self.is_delete : return
-        self.is_delete=True
-        self.is_active=False
+    def delete(self, *args, **kwargs):
+        if self.is_delete:
+            return
+        self.is_delete = True
+        self.is_active = False
         self.save()
-    
+
     class Meta:
         db_table = 'products'
