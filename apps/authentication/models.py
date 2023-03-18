@@ -19,7 +19,7 @@ class User(AbstractUser):
     updated_at = models.DateTimeField(auto_now=True)
     date_joined = models.DateTimeField(default=timezone.now)
 
-    # Custom Object manager
+    # CUSTOM OBJECT MANAGER
     objects = CustomUserManager()
 
     REQUIRED_FIELDS = []
@@ -42,6 +42,11 @@ class User(AbstractUser):
             'updated_at': self.updated_at,
             'date_joined': self.date_joined,
         }
+
+    # CAN CUSTOMIZE IN-BUILT METHOD FOR MORE VALIDATIONS
+    # def save(self):
+    #     print("===> SAVING METHOD IS CALLED")
+    #     return super().save()
 
     class Meta:
         db_table = "users"
