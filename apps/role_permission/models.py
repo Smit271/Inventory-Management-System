@@ -44,7 +44,6 @@ class Roles(models.Model):
             'created_by_name': self.created_by.name if self.created_by else None,
             'permissions': list(self.permissions.values()),
             'permissions_list': [id['id'] for id in self.permissions.values('id')],
-            # 'assigned_user_list': 
         }
 
     class Meta:

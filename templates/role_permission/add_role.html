@@ -8,6 +8,7 @@
             <div id="loading-center"></div>
         </div>
         <!-- loader END -->
+
         <!-- Wrapper Start -->
         <div class="wrapper">
             <div class="content-page">
@@ -69,4 +70,13 @@
         </div>
     </body>
 {% endblock %}
-{% block jquery %}{% endblock %}
+{% block jquery %}
+
+<script>
+    $(document).ready(function() {
+        document.getElementById('role').className = "iq-submenu expand";
+        document.getElementById('add_roles').className = "font-weight-bold active";
+    });
+</script>
+
+{% endblock %}

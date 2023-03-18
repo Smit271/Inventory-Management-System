@@ -12,6 +12,7 @@ class User(AbstractUser):
     phone = models.CharField(max_length=50)
     role = models.ForeignKey(Roles, on_delete=models.CASCADE, default=None, null=True,
                              db_constraint=False, related_name='role_user')
+    gender = models.IntegerField(default=1)
     is_active = models.BooleanField(default=True)
     is_delete = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)

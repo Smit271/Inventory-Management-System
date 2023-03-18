@@ -226,6 +226,13 @@ TONEOP | Location
 
 {% block jquery %}
 
+<script>
+    $(document).ready(function() {
+        document.getElementById('product').className = "iq-submenu expand";
+        document.getElementById('list_location').className = "font-weight-bold active";
+    });
+</script>
+
 <!-- Show Location Functionality -->
 <script>
     function showLocation(id) {

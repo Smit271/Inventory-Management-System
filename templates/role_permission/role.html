@@ -41,7 +41,7 @@
                                             <tr class="ligth">
                                                 <th>Sr No.</th>
                                                 <th>Name</th>
-                                                <th>Code</th>
+                                                <th>User count</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -50,7 +50,7 @@
                                             <tr>
                                                 <td>{{ forloop.counter }}</td>
                                                 <td>{{ role.name }}</td>
-                                                <td>{{ role.is_active }}</td>
+                                                <td>{{ role.assigned_user_count }}</td>
                                                 <td>
                                                     <div class="d-flex align-items-center list-action">
                                                         <button type="button" class="btn btn-primary rounded-pill mt-2 mr-2" onClick="showRole({{ role.id }})" data-toggle="modal" data-target="#Show-Role">
@@ -190,7 +190,8 @@
 {% endblock %} {% block jquery %}
 <script>
     $(document).ready(function() {
-        $('#list_roles').addClass('active');
+        document.getElementById('role').className = "iq-submenu expand";
+        document.getElementById('list_roles').className = "font-weight-bold active";
     });
 </script>
 

@@ -59,9 +59,19 @@
                             </svg>
                         </a>
                         <ul id="product" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                            <li class="">
+                            <li class="" id="list_location">
+                                <a href="{% url 'location' %}">
+                                    <i class="las la-minus"></i><span>Locations</span>
+                                </a>
+                            </li>
+                            <li class="" id="list_device_type">
+                                <a href="{% url 'device_type' %}">
+                                    <i class="las la-minus"></i><span>Device Type</span>
+                                </a>
+                            </li>
+                            <li class="" id="list_product">
                                 <a href="{% url 'home' %}">
-                                    <i class="las la-minus"></i><span>List Product</span>
+                                    <i class="las la-minus"></i><span>Product</span>
                                 </a>
                             </li>
                         </ul>
@@ -81,12 +91,12 @@
                             </svg>
                         </a>
                         <ul id="role" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                            <li class="list_roles">
+                            <li id="list_roles">
                                 <a href="{% url 'role' %}">
                                     <i class="las la-minus"></i><span>List Role</span>
                                 </a>
                             </li>
-                            <li class="">
+                            <li id="add_roles">
                                 <a href="{% url 'add_role' %}">
                                     <i class="las la-minus"></i><span>Add Role</span>
                                 </a>

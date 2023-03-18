@@ -255,6 +255,13 @@ TONEOP | Device Type
 
 {% block jquery %}
 
+<script>
+    $(document).ready(function() {
+        document.getElementById('product').className = "iq-submenu expand";
+        document.getElementById('list_device_type').className = "font-weight-bold active";
+    });
+</script>
+
 <!-- Show DeviceType Functionality -->
 <script>
     function showDeviceType(id) {

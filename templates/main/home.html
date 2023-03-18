@@ -453,6 +453,13 @@ TONEOP | Home
 
 {% block jquery %}
 
+<script>
+    $(document).ready(function() {
+        document.getElementById('product').className = "iq-submenu expand";
+        document.getElementById('list_product').className = "font-weight-bold active";
+    });
+</script>
+
 <!-- Show Product Functionality -->
 <script>
     function showProduct(id) {

@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from .models import User
 from django.contrib import messages
 from django.contrib.auth import login
+from role_permission.models import (
+    Roles,
+)
 
 
 def login_view(request):
@@ -22,3 +25,15 @@ def login_view(request):
             else:
                 messages.warning(request, message="Wrong credentials.")
                 return render(request, 'authentication/login.html')
+
+
+def add_user(request):
+    roles_objs = Roles.objects.values()
+    context = {
+        'roles': roles_objs
+    }
+    return render(request, 'main/add_user.html', context)
+
+
+def create_user(request):
+    print("===> request.POST: ", request.POST)

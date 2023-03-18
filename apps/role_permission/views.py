@@ -5,6 +5,9 @@ from django.contrib import messages
 from role_permission.models import (
     Permissions, Roles
 )
+from authentication.models import (
+    User
+)
 
 # Permissions Views
 
@@ -66,6 +69,11 @@ def delete_permission(request):
 def role(request):
     if request.method == 'GET':
         role_objs = Roles.objects.values()
+        for obj in role_objs:
+            assigned_count = User.objects.filter(
+                role_id=obj['id']
+            ).count()
+            obj['assigned_user_count'] = assigned_count
         permissions_list = Permissions.objects.values()
         context = {
             "data": role_objs,
