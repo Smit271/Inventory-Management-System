@@ -19,7 +19,7 @@
 <body>
     <div class="iq-sidebar  sidebar-default ">
         <div class="iq-sidebar-logo d-flex align-items-center justify-content-between">
-            <a href="../backend/index.html" class="header-logo">
+            <a href="{% url 'login_view' %}" class="header-logo">
                 <img src="{% static 'assets/images/logo.png' %}" class="img-fluid rounded-normal light-logo" alt="logo">
                 <h5 class="logo-title light-logo ml-3">Inventory</h5>
             </a>
@@ -611,7 +611,7 @@
                                                 <a href="#" class="iq-sub-card">
                                                     <div class="media align-items-center cust-card py-3 border-bottom">
                                                         <div class="">
-                                                            <img class="avatar-50 rounded-small" src="../assets/images/user/01.jpg" alt="01">
+                                                            <img class="avatar-50 rounded-small" src="{% static '/assets/images/user/01.jpg' %}" alt="01">
                                                         </div>
                                                         <div class="media-body ml-3">
                                                             <div class="d-flex align-items-center justify-content-between">
@@ -625,7 +625,7 @@
                                                 <a href="#" class="iq-sub-card">
                                                     <div class="media align-items-center cust-card py-3 border-bottom">
                                                         <div class="">
-                                                            <img class="avatar-50 rounded-small" src="../assets/images/user/02.jpg" alt="02">
+                                                            <img class="avatar-50 rounded-small" src="{% static '/assets/images/user/02.jpg' %}" alt="02">
                                                         </div>
                                                         <div class="media-body ml-3">
                                                             <div class="d-flex align-items-center justify-content-between">
@@ -639,7 +639,7 @@
                                                 <a href="#" class="iq-sub-card">
                                                     <div class="media align-items-center cust-card py-3">
                                                         <div class="">
-                                                            <img class="avatar-50 rounded-small" src="../assets/images/user/03.jpg" alt="03">
+                                                            <img class="avatar-50 rounded-small" src="{% static '/assets/images/user/03.jpg' %}" alt="03">
                                                         </div>
                                                         <div class="media-body ml-3">
                                                             <div class="d-flex align-items-center justify-content-between">
@@ -680,7 +680,7 @@
                                                 <a href="#" class="iq-sub-card">
                                                     <div class="media align-items-center cust-card py-3 border-bottom">
                                                         <div class="">
-                                                            <img class="avatar-50 rounded-small" src="../assets/images/user/01.jpg" alt="01">
+                                                            <img class="avatar-50 rounded-small" src="{% static '/assets/images/user/01.jpg' %}" alt="01">
                                                         </div>
                                                         <div class="media-body ml-3">
                                                             <div class="d-flex align-items-center justify-content-between">
@@ -694,7 +694,7 @@
                                                 <a href="#" class="iq-sub-card">
                                                     <div class="media align-items-center cust-card py-3 border-bottom">
                                                         <div class="">
-                                                            <img class="avatar-50 rounded-small" src="../assets/images/user/02.jpg" alt="02">
+                                                            <img class="avatar-50 rounded-small" src="{% static '/assets/images/user/02.jpg' %}" alt="02">
                                                         </div>
                                                         <div class="media-body ml-3">
                                                             <div class="d-flex align-items-center justify-content-between">
@@ -708,7 +708,7 @@
                                                 <a href="#" class="iq-sub-card">
                                                     <div class="media align-items-center cust-card py-3">
                                                         <div class="">
-                                                            <img class="avatar-50 rounded-small" src="../assets/images/user/03.jpg" alt="03">
+                                                            <img class="avatar-50 rounded-small" src="{% static '/assets/images/user/03.jpg' %}" alt="03">
                                                         </div>
                                                         <div class="media-body ml-3">
                                                             <div class="d-flex align-items-center justify-content-between">
@@ -730,21 +730,21 @@
                             <!-- Profile -->
                             <li class="nav-item nav-icon dropdown caption-content">
                                 <a href="#" class="search-toggle dropdown-toggle" id="dropdownMenuButton4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src="../assets/images/user/1.png" class="img-fluid rounded" alt="user">
+                                    <img src="{% static '/assets/images/user/1.png' %}" class="img-fluid rounded" alt="user">
                                 </a>
                                 <div class="iq-sub-dropdown dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <div class="card shadow-none m-0">
                                         <div class="card-body p-0 text-center">
                                             <div class="media-body profile-detail text-center">
-                                                <img src="../assets/images/page-img/profile-bg.jpg" alt="profile-bg" class="rounded-top img-fluid mb-4">
-                                                <img src="../assets/images/user/1.png" alt="profile-img" class="rounded profile-img img-fluid avatar-70">
+                                                <img src="{% static '/assets/images/page-img/profile-bg.jpg' %}" alt="profile-bg" class="rounded-top img-fluid mb-4">
+                                                <img src="{% static '/assets/images/user/1.png' %}" alt="profile-img" class="rounded profile-img img-fluid avatar-70">
                                             </div>
                                             <div class="p-3">
-                                                <h5 class="mb-1">JoanDuo@property.com</h5>
-                                                <p class="mb-0">Since 10 march, 2020</p>
+                                                <h5 class="mb-1">{{ user.email }}</h5>
+                                                <p class="mb-0">Since {{ user.created_at }}</p>
                                                 <div class="d-flex align-items-center justify-content-center mt-3">
-                                                    <a href="../app/user-profile.html" class="btn border mr-2">Profile</a>
-                                                    <a href="auth-sign-in.html" class="btn border">Sign Out</a>
+                                                    <!-- <a class="btn border mr-2">Profile</a> -->
+                                                    <a href="{% url 'login_view' %}" class="btn border">Sign Out</a>
                                                 </div>
                                             </div>
                                         </div>

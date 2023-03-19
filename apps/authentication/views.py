@@ -1,16 +1,17 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 
 from .models import User
 from role_permission.models import (
     Roles,
 )
-from .decorators import login_required
+from .decorators import login_required, check_user_permissions
 
 
 def login_view(request):
     if request.method == 'GET':
+        logout(request)
         return render(request, 'authentication/login.html')
     else:
         user_obj = User.objects.filter(
@@ -30,6 +31,7 @@ def login_view(request):
 
 
 @login_required
+@check_user_permissions(permission_code="ADUS")
 def add_user(request):
     roles_objs = Roles.objects.values()
     context = {
@@ -39,6 +41,7 @@ def add_user(request):
 
 
 @login_required
+@check_user_permissions(permission_code="ADUS")
 def create_user(request):
     print("===> request.POST: ", request.POST)
 
@@ -60,6 +63,7 @@ def create_user(request):
 
 
 @login_required
+@check_user_permissions(permission_code="VIUS")
 def users(request):
     user_objs = User.objects.filter(
         is_superuser=False

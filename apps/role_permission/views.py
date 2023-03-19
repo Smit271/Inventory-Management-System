@@ -8,10 +8,11 @@ from role_permission.models import (
 from authentication.models import (
     User
 )
+from authentication.decorators import login_required
+
 
 # Permissions Views
-
-
+@login_required
 def permission(request):
     if request.method == 'GET':
         permission_objs = Permissions.objects.values()
@@ -21,6 +22,7 @@ def permission(request):
         return render(request, 'role_permission/permission.html', context)
 
 
+@login_required
 def get_permission_detail(request, id):
     permission_obj = list(Permissions.objects.filter(
         id=id
@@ -30,6 +32,7 @@ def get_permission_detail(request, id):
     return JsonResponse(permission_obj, safe=False)
 
 
+@login_required
 def add_permission_data(request):
     Permissions.objects.create(
         name=request.POST['add_name'],
@@ -40,6 +43,7 @@ def add_permission_data(request):
     return redirect(permission)
 
 
+@login_required
 def edit_permission_data(request):
     permission_obj = Permissions.objects.filter(
         id=request.POST['edit_id']).first()
@@ -54,6 +58,7 @@ def edit_permission_data(request):
     return redirect(permission)
 
 
+@login_required
 def delete_permission(request):
     permission_obj = Permissions.objects.filter(
         id=request.POST['delete_id']).first()
@@ -66,6 +71,7 @@ def delete_permission(request):
     return redirect(permission)
 
 
+@login_required
 def role(request):
     if request.method == 'GET':
         role_objs = Roles.objects.values()
@@ -82,6 +88,7 @@ def role(request):
         return render(request, 'role_permission/role.html', context)
 
 
+@login_required
 def add_role(request):
     if request.method == 'GET':
         role_objs = Roles.objects.values()
@@ -93,6 +100,7 @@ def add_role(request):
         return render(request, 'role_permission/add_role.html', context)
 
 
+@login_required
 def create_role(request):
     if request.method == 'POST':
         print("===> request.POST: ", request.POST)
@@ -110,19 +118,20 @@ def create_role(request):
         return redirect(role)
 
 
+@login_required
 def get_role_detail(request, id):
     roles_data = Roles.objects.get(
         id=id
     ).get_full_details()
 
-    # print("===> roles_data: ", roles_data)
     return JsonResponse(roles_data, safe=False)
 
 
+@login_required
 def edit_role_data(request):
     role_obj = Roles.objects.filter(
         id=request.POST['edit_id']).first()
-    
+
     permission_ids = dict(request.POST)['edit_permissions']
     role_obj.name = request.POST['edit_name']
     role_obj.permissions.set(permission_ids)
