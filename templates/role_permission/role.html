@@ -10,16 +10,17 @@
     <!-- Wrapper Start -->
     <div class="wrapper">
         <div class="content-page">
+            <!-- Message From View -->
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li class="alert alert-primary" role="alert">
+                    <div class="iq-alert-text">{{ message }}</div>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
             <div class="container-fluid">
-                {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
-                        {{ message }}
-                    </li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
                 <!-- Table -->
                 <div class="row">
                     <div class="col-sm-12">

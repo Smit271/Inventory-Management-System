@@ -107,4 +107,13 @@
     </div>
 </body>
 
-{% endblock %} {% block jquery %} {% endblock %}
+{% endblock %} {% block jquery %} 
+
+<script>
+    $(document).ready(function() {
+        document.getElementById('user').className = "iq-submenu expand";
+        document.getElementById('add_user').className = "font-weight-bold active";
+    });
+</script>
+
+{% endblock %}

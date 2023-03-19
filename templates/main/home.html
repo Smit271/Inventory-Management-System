@@ -1,11 +1,4 @@
-{% extends 'main/base.html' %}
-{% load static %}
-
-{% block title %}
-TONEOP | Home
-{% endblock %}
-
-{% block body %}
+{% extends 'main/base.html' %} {% load static %} {% block title %} TONEOP | Home {% endblock %} {% block body %}
 
 <body class="color-light ">
     <!-- loader Start -->
@@ -17,14 +10,17 @@ TONEOP | Home
     <!-- Wrapper Start -->
     <div class="wrapper">
         <div class="content-page">
+            <!-- Message From View -->
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li class="alert alert-primary" role="alert">
+                    <div class="iq-alert-text">{{ message }}</div>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
             <div class="container-fluid">
-                {% if messages %}
-                    <ul class="messages">
-                        {% for message in messages %}
-                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
                 <!-- Table -->
                 <div class="row">
                     <div class="col-sm-12">
@@ -33,9 +29,7 @@ TONEOP | Home
                                 <div class="header-title">
                                     <h4 class="card-title">Products</h4>
                                 </div>
-                                <button type="button" class="btn btn-primary mt-2"
-                                    class="btn btn-primary rounded-pill mt-2 mr-2" data-toggle="modal"
-                                    data-target="#Add-Product">
+                                <button type="button" class="btn btn-primary mt-2" class="btn btn-primary rounded-pill mt-2 mr-2" data-toggle="modal" data-target="#Add-Product">
                                     Add Product
                                 </button>
                             </div>
@@ -64,22 +58,13 @@ TONEOP | Home
                                                 <td>{{ product.loc }}</td>
                                                 <td>
                                                     <div class="d-flex align-items-center list-action">
-                                                        <button type="button"
-                                                            class="btn btn-primary rounded-pill mt-2 mr-2"
-                                                            onClick="showProduct({{ product.id }})" data-toggle="modal"
-                                                            data-target="#Show-Product">
+                                                        <button type="button" class="btn btn-primary rounded-pill mt-2 mr-2" onClick="showProduct({{ product.id }})" data-toggle="modal" data-target="#Show-Product">
                                                             <i class="ri-eye-line mr-0"></i>
                                                         </button>
-                                                        <button type="button"
-                                                            class="btn btn-success rounded-pill mt-2 mr-2"
-                                                            onClick="editProduct({{ product.id }})" data-toggle="modal"
-                                                            data-target="#Edit-Product">
+                                                        <button type="button" class="btn btn-success rounded-pill mt-2 mr-2" onClick="editProduct({{ product.id }})" data-toggle="modal" data-target="#Edit-Product">
                                                             <i class="ri-pencil-line mr-0"></i>
                                                         </button>
-                                                        <button type="button"
-                                                            class="btn btn-secondary rounded-pill mt-2"
-                                                            onClick="deleteProduct({{ product.id }})"
-                                                            data-toggle="modal" data-target="#Delete-Product">
+                                                        <button type="button" class="btn btn-secondary rounded-pill mt-2" onClick="deleteProduct({{ product.id }})" data-toggle="modal" data-target="#Delete-Product">
                                                             <i class="ri-delete-bin-line mr-0"></i>
                                                         </button>
                                                     </div>
@@ -95,8 +80,7 @@ TONEOP | Home
                 </div>
 
                 <!-- Show Modal -->
-                <div class="modal fade" id="Show-Product" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal fade" id="Show-Product" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -112,8 +96,7 @@ TONEOP | Home
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Device Type *</label>
-                                                <select class="select2 selectpicker form-control"
-                                                    name="show_device_type" data-style="py-0">
+                                                <select class="select2 selectpicker form-control" name="show_device_type" data-style="py-0">
                                                     {% for dev_type in device_type_objs %}
                                                     <option value="{{dev_type.id}}">{{dev_type.name}}</option>
                                                     {% endfor %}
@@ -123,57 +106,49 @@ TONEOP | Home
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Model No *</label>
-                                                <input type="text" class="form-control" placeholder="Enter Model No"
-                                                    id="show_model_no" data-errors="Please Enter Model No." required>
+                                                <input type="text" class="form-control" placeholder="Enter Model No" id="show_model_no" data-errors="Please Enter Model No." required>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Service Tag *</label>
-                                                <input type="text" class="form-control" placeholder="Enter Service Tag"
-                                                    id="show_service_tag" data-errors="Please Enter Service Tag."
-                                                    required>
+                                                <input type="text" class="form-control" placeholder="Enter Service Tag" id="show_service_tag" data-errors="Please Enter Service Tag." required>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Brand *</label>
-                                                <input type="text" class="form-control" placeholder="Enter Brand"
-                                                    id="show_brand" data-errors="Please Enter Brand." required>
+                                                <input type="text" class="form-control" placeholder="Enter Brand" id="show_brand" data-errors="Please Enter Brand." required>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>RAM *</label>
-                                                <input type="text" class="form-control" placeholder="Enter RAM"
-                                                    id="show_ram" data-errors="Please Enter RAM." required>
+                                                <input type="text" class="form-control" placeholder="Enter RAM" id="show_ram" data-errors="Please Enter RAM." required>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Memory *</label>
-                                                <input type="text" class="form-control" placeholder="Enter Memory"
-                                                    id="show_memory" data-errors="Please Enter Memory." required>
+                                                <input type="text" class="form-control" placeholder="Enter Memory" id="show_memory" data-errors="Please Enter Memory." required>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Assigned *</label>
-                                                <input type="text" class="form-control" placeholder="Enter Assigned"
-                                                    id="show_assigned" data-errors="Please Enter Name." required>
+                                                <input type="text" class="form-control" placeholder="Enter Assigned" id="show_assigned" data-errors="Please Enter Name." required>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Location *</label>
-                                                <select name="show_location" class="select2 selectpicker form-control"
-                                                    data-style="py-0">
+                                                <select name="show_location" class="select2 selectpicker form-control" data-style="py-0">
                                                     {% for loc in location_objs %}
                                                     <option value="{{loc.id}}">{{loc.name}}</option>
                                                     {% endfor %}
@@ -183,8 +158,7 @@ TONEOP | Home
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Additional Comments</label>
-                                                <textarea class="form-control" rows="4"
-                                                    id="show_additional_comments"></textarea>
+                                                <textarea class="form-control" rows="4" id="show_additional_comments"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -198,8 +172,7 @@ TONEOP | Home
                 </div>
 
                 <!-- Add Modal -->
-                <div class="modal fade" id="Add-Product" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal fade" id="Add-Product" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -215,8 +188,7 @@ TONEOP | Home
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Device Type *</label>
-                                                <select class="select2 selectpicker form-control" name="add_device_type"
-                                                    data-style="py-0">
+                                                <select class="select2 selectpicker form-control" name="add_device_type" data-style="py-0">
                                                     {% for dev_type in device_type_objs %}
                                                     <option value="{{dev_type.id}}">{{dev_type.name}}</option>
                                                     {% endfor %}
@@ -226,62 +198,49 @@ TONEOP | Home
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Model No *</label>
-                                                <input type="text" class="form-control" placeholder="Enter Model No"
-                                                    id="add_model_no" data-errors="Please Enter Model No."
-                                                    name="add_model_no" required>
+                                                <input type="text" class="form-control" placeholder="Enter Model No" id="add_model_no" data-errors="Please Enter Model No." name="add_model_no" required>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Service Tag *</label>
-                                                <input type="text" class="form-control" placeholder="Enter Service Tag"
-                                                    id="add_service_tag" data-errors="Please Enter Service Tag."
-                                                    name="add_service_tag" required>
+                                                <input type="text" class="form-control" placeholder="Enter Service Tag" id="add_service_tag" data-errors="Please Enter Service Tag." name="add_service_tag" required>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Brand *</label>
-                                                <input type="text" class="form-control" placeholder="Enter Brand"
-                                                    id="add_brand" data-errors="Please Enter Brand." name="add_brand"
-                                                    required>
+                                                <input type="text" class="form-control" placeholder="Enter Brand" id="add_brand" data-errors="Please Enter Brand." name="add_brand" required>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>RAM *</label>
-                                                <input type="text" class="form-control" placeholder="Enter RAM"
-                                                    id="add_ram" data-errors="Please Enter RAM." name="add_ram"
-                                                    required>
+                                                <input type="text" class="form-control" placeholder="Enter RAM" id="add_ram" data-errors="Please Enter RAM." name="add_ram" required>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Memory *</label>
-                                                <input type="text" class="form-control" placeholder="Enter Memory"
-                                                    id="add_memory" data-errors="Please Enter Memory." name="add_memory"
-                                                    required>
+                                                <input type="text" class="form-control" placeholder="Enter Memory" id="add_memory" data-errors="Please Enter Memory." name="add_memory" required>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Assigned *</label>
-                                                <input type="text" class="form-control" placeholder="Enter Assigned"
-                                                    id="add_assigned" data-errors="Please Enter Name."
-                                                    name="add_assigned" required>
+                                                <input type="text" class="form-control" placeholder="Enter Assigned" id="add_assigned" data-errors="Please Enter Name." name="add_assigned" required>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Location *</label>
-                                                <select name="add_location" class="select2 selectpicker form-control"
-                                                    data-style="py-0">
+                                                <select name="add_location" class="select2 selectpicker form-control" data-style="py-0">
                                                     {% for loc in location_objs %}
                                                     <option value="{{loc.id}}">{{loc.name}}</option>
                                                     {% endfor %}
@@ -291,16 +250,14 @@ TONEOP | Home
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Additional Comments</label>
-                                                <textarea class="form-control" rows="4" id="add_additional_comments"
-                                                    name="add_additional_comments"></textarea>
+                                                <textarea class="form-control" rows="4" id="add_additional_comments" name="add_additional_comments"></textarea>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-primary mr-2">Add Product</button>
                                         <button type="reset" class="btn btn-danger">Reset</button>
-                                        <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     </div>
                                 </form>
                             </div>
@@ -309,8 +266,7 @@ TONEOP | Home
                 </div>
 
                 <!-- Edit Modal -->
-                <div class="modal fade" id="Edit-Product" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal fade" id="Edit-Product" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -327,8 +283,7 @@ TONEOP | Home
                                             <div class="form-group">
                                                 <label>Device Type *</label>
                                                 <input type="hidden" name="edit_id" id="edit_id">
-                                                <select class="select2 selectpicker form-control"
-                                                    name="edit_device_type" data-style="py-0">
+                                                <select class="select2 selectpicker form-control" name="edit_device_type" data-style="py-0">
                                                     {% for dev_type in device_type_objs %}
                                                     <option value="{{dev_type.id}}">{{dev_type.name}}</option>
                                                     {% endfor %}
@@ -338,62 +293,49 @@ TONEOP | Home
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Model No *</label>
-                                                <input type="text" class="form-control" placeholder="Enter Model No"
-                                                    id="edit_model_no" data-errors="Please Enter Model No."
-                                                    name="edit_model_no" required>
+                                                <input type="text" class="form-control" placeholder="Enter Model No" id="edit_model_no" data-errors="Please Enter Model No." name="edit_model_no" required>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Service Tag *</label>
-                                                <input type="text" class="form-control" placeholder="Enter Service Tag"
-                                                    id="edit_service_tag" data-errors="Please Enter Service Tag."
-                                                    name="edit_service_tag" required>
+                                                <input type="text" class="form-control" placeholder="Enter Service Tag" id="edit_service_tag" data-errors="Please Enter Service Tag." name="edit_service_tag" required>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Brand *</label>
-                                                <input type="text" class="form-control" placeholder="Enter Brand"
-                                                    id="edit_brand" data-errors="Please Enter Brand." name="edit_brand"
-                                                    required>
+                                                <input type="text" class="form-control" placeholder="Enter Brand" id="edit_brand" data-errors="Please Enter Brand." name="edit_brand" required>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>RAM *</label>
-                                                <input type="text" class="form-control" placeholder="Enter RAM"
-                                                    id="edit_ram" data-errors="Please Enter RAM." name="edit_ram"
-                                                    required>
+                                                <input type="text" class="form-control" placeholder="Enter RAM" id="edit_ram" data-errors="Please Enter RAM." name="edit_ram" required>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Memory *</label>
-                                                <input type="text" class="form-control" placeholder="Enter Memory"
-                                                    id="edit_memory" data-errors="Please Enter Memory."
-                                                    name="edit_memory" required>
+                                                <input type="text" class="form-control" placeholder="Enter Memory" id="edit_memory" data-errors="Please Enter Memory." name="edit_memory" required>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Assigned *</label>
-                                                <input type="text" class="form-control" placeholder="Enter Assigned"
-                                                    id="edit_assigned" data-errors="Please Enter Name."
-                                                    name="edit_assigned" required>
+                                                <input type="text" class="form-control" placeholder="Enter Assigned" id="edit_assigned" data-errors="Please Enter Name." name="edit_assigned" required>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Location *</label>
-                                                <select name="edit_location" class="select2 selectpicker form-control"
-                                                    data-style="py-0">
+                                                <select name="edit_location" class="select2 selectpicker form-control" data-style="py-0">
                                                     {% for loc in location_objs %}
                                                     <option value="{{loc.id}}">{{loc.name}}</option>
                                                     {% endfor %}
@@ -403,15 +345,13 @@ TONEOP | Home
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Additional Comments</label>
-                                                <textarea class="form-control" rows="4" id="edit_additional_comments"
-                                                    name="edit_additional_comments"></textarea>
+                                                <textarea class="form-control" rows="4" id="edit_additional_comments" name="edit_additional_comments"></textarea>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-primary mr-2">Update</button>
-                                        <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     </div>
                                 </form>
                             </div>
@@ -420,8 +360,7 @@ TONEOP | Home
                 </div>
 
                 <!-- Delete-Modal -->
-                <div class="modal fade" id="Delete-Product" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="Delete-Product" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <form method="post" action="delete_product">
@@ -449,9 +388,7 @@ TONEOP | Home
     </div>
 </body>
 
-{% endblock %}
-
-{% block jquery %}
+{% endblock %} {% block jquery %}
 
 <script>
     $(document).ready(function() {
@@ -469,7 +406,7 @@ TONEOP | Home
                 type: 'get',
                 async: false,
                 cache: false,
-                success: function (data) {
+                success: function(data) {
                     console.log(data)
                     $('#show_id').val(data[0]['id']);
                     $('#show_model_no').val(data[0]['model_no']);
@@ -505,7 +442,7 @@ TONEOP | Home
                 type: 'get',
                 async: false,
                 cache: false,
-                success: function (data) {
+                success: function(data) {
                     console.log(data)
                     $('#edit_id').val(data[0]['id']);
                     $('#edit_model_no').val(data[0]['model_no']);
