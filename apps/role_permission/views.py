@@ -8,11 +8,14 @@ from role_permission.models import (
 from authentication.models import (
     User
 )
-from authentication.decorators import login_required
+from authentication.decorators import (
+    login_required, check_user_permissions
+)
 
 
 # Permissions Views
 @login_required
+@check_user_permissions(permission_code="VIPE")
 def permission(request):
     if request.method == 'GET':
         permission_objs = Permissions.objects.values()
@@ -33,6 +36,7 @@ def get_permission_detail(request, id):
 
 
 @login_required
+@check_user_permissions(permission_code="ADPE")
 def add_permission_data(request):
     Permissions.objects.create(
         name=request.POST['add_name'],
@@ -44,6 +48,7 @@ def add_permission_data(request):
 
 
 @login_required
+@check_user_permissions(permission_code="EDPE")
 def edit_permission_data(request):
     permission_obj = Permissions.objects.filter(
         id=request.POST['edit_id']).first()
@@ -59,6 +64,7 @@ def edit_permission_data(request):
 
 
 @login_required
+@check_user_permissions(permission_code="DEPE")
 def delete_permission(request):
     permission_obj = Permissions.objects.filter(
         id=request.POST['delete_id']).first()
@@ -72,6 +78,7 @@ def delete_permission(request):
 
 
 @login_required
+@check_user_permissions(permission_code="VIRO")
 def role(request):
     if request.method == 'GET':
         role_objs = Roles.objects.values()
@@ -89,6 +96,7 @@ def role(request):
 
 
 @login_required
+@check_user_permissions(permission_code="ADRO")
 def add_role(request):
     if request.method == 'GET':
         role_objs = Roles.objects.values()
@@ -101,6 +109,7 @@ def add_role(request):
 
 
 @login_required
+@check_user_permissions(permission_code="ADRO")
 def create_role(request):
     if request.method == 'POST':
         print("===> request.POST: ", request.POST)
@@ -128,6 +137,7 @@ def get_role_detail(request, id):
 
 
 @login_required
+@check_user_permissions(permission_code="EDRO")
 def edit_role_data(request):
     role_obj = Roles.objects.filter(
         id=request.POST['edit_id']).first()

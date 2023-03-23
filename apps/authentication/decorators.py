@@ -1,4 +1,5 @@
 from django.shortcuts import redirect
+from django.contrib import messages
 
 
 def login_required(func):
@@ -17,13 +18,12 @@ def check_user_permissions(permission_code):
                 user_perms_list = [
                     perms['code'] for perms in request.user.role.permissions.values('code')
                 ]
-                print("===> Permissions: ",  user_perms_list)
-                if permission_code in user_perms_list:
-                    print("===> YES")
+                if permission_code in user_perms_list or request.user.is_superuser:
                     return func(request, *args, **kwargs)
                 else:
-                    print("===> NO")
-                    return func(request, *args, **kwargs)
+                    messages.error(request, "You do not have access to this page please contact ADMIN.")
+                    return redirect('dashboard')
+                    # return func(request, *args, **kwargs)
             else:
                 return redirect('login_view')
         return wrapper

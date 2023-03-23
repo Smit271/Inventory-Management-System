@@ -9,7 +9,7 @@ from .views import (
 )
 
 urlpatterns = [
-    # Products URLs
+    # ----- Products URLs ----- #
     path('home', home, name='home'),
     path('get_product_detail/<int:id>',
          get_product_detail, name='get_product_detail'),
@@ -17,7 +17,7 @@ urlpatterns = [
     path('edit_product_data', edit_product_data, name='edit_product_data'),
     path('delete_product', delete_product, name='delete_product'),
 
-    # Device Type URLs
+    # ----- Device Type URLs ----- #
     path('device_type', device_type, name='device_type'),
     path('get_device_type_detail/<int:id>',
          get_device_type_detail, name='get_device_type_detail'),
@@ -27,7 +27,7 @@ urlpatterns = [
          name='edit_device_type_data'),
     path('delete_device_type', delete_device_type, name='delete_device_type'),
 
-    # Location URLs
+    # ----- Location Type URLs ----- #
     path('location', location, name='location'),
     path('get_location_detail/<int:id>',
          get_location_detail, name='get_location_detail'),

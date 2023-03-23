@@ -30,9 +30,10 @@
         <div class="data-scrollbar" data-scroll="1">
             <nav class="iq-sidebar-menu">
                 <ul id="iq-sidebar-toggle" class="iq-menu">
+                    
                     <!-- Dashboard -->
-                    <li class="dashboard">
-                        <a href="../backend/index.html" class="svg-icon">
+                    <li class="dashboard" id="dashboard">
+                        <a href="{% url 'dashboard' %}" class="svg-icon">
                             <svg class="svg-icon" id="p-dash1" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path
                                     d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
@@ -40,7 +41,7 @@
                                 <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
                                 <line x1="12" y1="22.08" x2="12" y2="12"></line>
                             </svg>
-                            <span class="ml-4">Dashboards</span>
+                            <span class="ml-4">Dashboard</span>
                         </a>
                     </li>
 
@@ -59,79 +60,100 @@
                             </svg>
                         </a>
                         <ul id="product" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                            <li class="" id="list_location">
-                                <a href="{% url 'location' %}">
-                                    <i class="las la-minus"></i><span>Locations</span>
-                                </a>
-                            </li>
-                            <li class="" id="list_device_type">
-                                <a href="{% url 'device_type' %}">
-                                    <i class="las la-minus"></i><span>Device Type</span>
-                                </a>
-                            </li>
-                            <li class="" id="list_product">
-                                <a href="{% url 'home' %}">
-                                    <i class="las la-minus"></i><span>Product</span>
-                                </a>
-                            </li>
+                            
+                            {% if 'VILO' in request.session.permission_codes %}
+                                <li class="" id="list_location">
+                                    <a href="{% url 'location' %}">
+                                        <i class="las la-minus"></i><span>Locations</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if 'VIDETY' in request.session.permission_codes %}
+                                <li class="" id="list_device_type">
+                                    <a href="{% url 'device_type' %}">
+                                        <i class="las la-minus"></i><span>Device Type</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if 'VIPR' in request.session.permission_codes %}
+                                <li class="" id="list_product">
+                                    <a href="{% url 'home' %}">
+                                        <i class="las la-minus"></i><span>Product</span>
+                                    </a>
+                                </li>
+                            {% endif %}
                         </ul>
                     </li>
 
                     <!-- Roles -->
-                    <li class="roles">
-                        <a href="#role" class="collapsed" data-toggle="collapse" aria-expanded="false">
-                            <svg class="svg-icon" id="p-dash5" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
-                                <line x1="1" y1="10" x2="23" y2="10"></line>
-                            </svg>
-                            <span class="ml-4">Roles</span>
-                            <svg class="svg-icon iq-arrow-right arrow-active" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="10 15 15 20 20 15"></polyline>
-                                <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
-                            </svg>
-                        </a>
-                        <ul id="role" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                            <li id="list_roles">
-                                <a href="{% url 'role' %}">
-                                    <i class="las la-minus"></i><span>List Role</span>
-                                </a>
-                            </li>
-                            <li id="add_roles">
-                                <a href="{% url 'add_role' %}">
-                                    <i class="las la-minus"></i><span>Add Role</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                    {% if 'VIRO' in request.session.permission_codes or 'ADRO' in request.session.permission_codes %}
+                        <li class="roles">
+                            <a href="#role" class="collapsed" data-toggle="collapse" aria-expanded="false">
+                                <svg class="svg-icon" id="p-dash5" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                    <line x1="1" y1="10" x2="23" y2="10"></line>
+                                </svg>
+                                <span class="ml-4">Roles</span>
+                                <svg class="svg-icon iq-arrow-right arrow-active" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="10 15 15 20 20 15"></polyline>
+                                    <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                                </svg>
+                            </a>
+                            <ul id="role" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                                
+                                {% if 'VIRO' in request.session.permission_codes %}
+                                    <li id="list_roles">
+                                        <a href="{% url 'role' %}">
+                                            <i class="las la-minus"></i><span>List Role</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if 'ADRO' in request.session.permission_codes %}
+                                <li id="add_roles">
+                                    <a href="{% url 'add_role' %}">
+                                        <i class="las la-minus"></i><span>Add Role</span>
+                                    </a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                    {% endif %}
 
-                    <!-- People -->
-                    <li class="people">
-                        <a href="#user" class="collapsed" data-toggle="collapse" aria-expanded="false">
-                            <svg class="svg-icon" id="p-dash8" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="9" cy="7" r="4"></circle>
-                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                            </svg>
-                            <span class="ml-4">People</span>
-                            <svg class="svg-icon iq-arrow-right arrow-active" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="10 15 15 20 20 15"></polyline>
-                                <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
-                            </svg>
-                        </a>
-                        <ul id="user" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                            <li class="" id="users">
-                                <a href="{% url 'users' %}">
-                                    <i class="las la-minus"></i><span>Users</span>
-                                </a>
-                            </li>
-                            <li class="" id="add_user">
-                                <a href="{% url 'add_user' %}">
-                                    <i class="las la-minus"></i><span>Add Users</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                    <!-- User/Employee -->
+                    {% if 'VIUS' in request.session.permission_codes or 'ADUS' in request.session.permission_codes %}
+                        <li class="people">
+                            <a href="#user" class="collapsed" data-toggle="collapse" aria-expanded="false">
+                                <svg class="svg-icon" id="p-dash8" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                </svg>
+                                <span class="ml-4">People</span>
+                                <svg class="svg-icon iq-arrow-right arrow-active" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="10 15 15 20 20 15"></polyline>
+                                    <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                                </svg>
+                            </a>
+                            <ul id="user" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                                
+                                {% if 'VIUS' in request.session.permission_codes %}
+                                <li class="" id="users">
+                                    <a href="{% url 'users' %}">
+                                        <i class="las la-minus"></i><span>Users</span>
+                                    </a>
+                                </li>
+                                {% endif %}
+                                {% if 'ADUS' in request.session.permission_codes %}
+                                <li class="" id="add_user">
+                                    <a href="{% url 'add_user' %}">
+                                        <i class="las la-minus"></i><span>Add Users</span>
+                                    </a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                    {% endif %}
 
                     <!-- Others -->
                     <li class=" ">
@@ -742,6 +764,7 @@
                                             <div class="p-3">
                                                 <h5 class="mb-1">{{ user.email }}</h5>
                                                 <p class="mb-0">Since {{ user.created_at }}</p>
+                                                <p class="mb-0">Last Login {{ user.last_login }}</p>
                                                 <div class="d-flex align-items-center justify-content-center mt-3">
                                                     <!-- <a class="btn border mr-2">Profile</a> -->
                                                     <a href="{% url 'login_view' %}" class="btn border">Sign Out</a>

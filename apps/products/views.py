@@ -6,11 +6,14 @@ from django.db.models import F
 from products.models import (
     Products, DeviceType, Location
 )
-from authentication.decorators import login_required
+from authentication.decorators import (
+    login_required, check_user_permissions
+)
 
 
 # Products Views
 @login_required
+@check_user_permissions(permission_code="VIPR")
 def home(request):
     if request.method == 'GET':
         products_objs = Products.objects.values(
@@ -49,6 +52,7 @@ def get_product_detail(request, id):
 
 
 @login_required
+@check_user_permissions(permission_code="ADPR")
 def add_product_data(request):
     Products.objects.create(
         device_type=DeviceType.objects.filter(
@@ -68,6 +72,7 @@ def add_product_data(request):
 
 
 @login_required
+@check_user_permissions(permission_code="EDPR")
 def edit_product_data(request):
     product_obj = Products.objects.filter(id=request.POST['edit_id']).first()
 
@@ -90,6 +95,7 @@ def edit_product_data(request):
 
 
 @login_required
+@check_user_permissions(permission_code="DEPR")
 def delete_product(request):
     product_obj = Products.objects.filter(id=request.POST['delete_id']).first()
     product_obj.delete()
@@ -101,6 +107,7 @@ def delete_product(request):
 
 # Device Views
 @login_required
+@check_user_permissions(permission_code="VIDETY")
 def device_type(request):
     if request.method == 'GET':
         device_type_objs = DeviceType.objects.values()
@@ -121,6 +128,7 @@ def get_device_type_detail(request, id):
 
 
 @login_required
+@check_user_permissions(permission_code="ADDETY")
 def add_device_type_data(request):
     DeviceType.objects.create(
         name=request.POST['add_name'],
@@ -131,6 +139,7 @@ def add_device_type_data(request):
 
 
 @login_required
+@check_user_permissions(permission_code="EDDETY")
 def edit_device_type_data(request):
     print("===> request.POST: ", request.POST)
     device_type_obj = DeviceType.objects.filter(
@@ -146,6 +155,7 @@ def edit_device_type_data(request):
 
 
 @login_required
+@check_user_permissions(permission_code="DEDETY")
 def delete_device_type(request):
     device_type_obj = DeviceType.objects.filter(
         id=request.POST['delete_id']).first()
@@ -156,9 +166,9 @@ def delete_device_type(request):
     return redirect(device_type)
 
 
-
 # Location Views
 @login_required
+@check_user_permissions(permission_code="VILO")
 def location(request):
     if request.method == 'GET':
         location_objs = Location.objects.values()
@@ -179,6 +189,7 @@ def get_location_detail(request, id):
 
 
 @login_required
+@check_user_permissions(permission_code="ADLO")
 def add_location_data(request):
     Location.objects.create(
         name=request.POST['add_name'],
@@ -189,6 +200,7 @@ def add_location_data(request):
 
 
 @login_required
+@check_user_permissions(permission_code="EDLO")
 def edit_location_data(request):
     print("===> request.POST: ", request.POST)
     location_obj = Location.objects.filter(
@@ -203,6 +215,7 @@ def edit_location_data(request):
 
 
 @login_required
+@check_user_permissions(permission_code="DELO")
 def delete_location(request):
     location_obj = Location.objects.filter(
         id=request.POST['delete_id']).first()
