@@ -12,6 +12,7 @@ from products.models import (
 from .decorators import login_required, check_user_permissions
 
 
+@login_required
 def dashboard(request):
     product_count = Products.objects.count()
     users_count = User.objects.count()

@@ -7,14 +7,19 @@ class DeviceType(models.Model):
     code = models.CharField(max_length=10, default="NA")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+    is_delete = models.BooleanField(default=False)
+
+    # Custom object manager
+    objects = ProductManager()
 
     def __str__(self):
         return self.name
 
     def delete(self, *args, **kwargs):
-        if self.is_deleted:
+        if self.is_delete:
             return
-        self.is_deleted = True
+        self.is_delete = True
         self.is_active = False
         self.save()
 
@@ -26,14 +31,19 @@ class Location(models.Model):
     name = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+    is_delete = models.BooleanField(default=False)
+
+    # Custom object manager
+    objects = ProductManager()
 
     def __str__(self):
         return self.name
 
     def delete(self, *args, **kwargs):
-        if self.is_deleted:
+        if self.is_delete:
             return
-        self.is_deleted = True
+        self.is_delete = True
         self.is_active = False
         self.save()
 
