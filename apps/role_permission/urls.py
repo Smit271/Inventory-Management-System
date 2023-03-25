@@ -8,7 +8,7 @@ from .views import (
 
 urlpatterns = [
     # Permissions URLs
-    path('permission', permission, name='permission'),
+    path('permission', permission, name='permissions'),
     path('get_permission_detail/<int:id>',
          get_permission_detail, name='get_permission_detail'),
     path('add_permission_data', add_permission_data, name='add_permission_data'),

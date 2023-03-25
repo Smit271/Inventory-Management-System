@@ -25,7 +25,7 @@ class Roles(models.Model):
     permissions = models.ManyToManyField(
         Permissions, related_name='roles_permission')
     created_by = models.ForeignKey(
-        'authentication.User', on_delete=models.SET_NULL, null=True)
+        'accounts.User', on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)

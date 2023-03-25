@@ -1,0 +1,116 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block title %}
+    TONEOP | Employee
+{% endblock title %}
+{% block body %}
+    <body class="color-light ">
+        <!-- loader Start -->
+        <div id="loading">
+            <div id="loading-center"></div>
+        </div>
+        <!-- loader END -->
+        <!-- Wrapper Start -->
+        <div class="wrapper">
+            <div class="content-page">
+                <!-- Message From View -->
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li class="alert alert-primary" role="alert">
+                                <div class="iq-alert-text">{{ message }}</div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
+                                <div>
+                                    <h4 class="mb-3">Employee List</h4>
+                                    <p class="mb-0">
+                                        A dashboard provides you an overview of user list with access to the most important data,
+                                    </br>
+                                    functions and controls.
+                                </p>
+                            </div>
+                            <a href="{% url 'add_user' %}" class="btn btn-primary add-list"><i class="las la-plus mr-3"></i>Add Employee</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="table-responsive">
+                            <table id="datatable1" class="table data-tables table-striped">
+                                <thead>
+                                    <tr class="ligth">
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Last Login</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for user in data %}
+                                        <tr>
+                                            <td>{{ user.name }}</td>
+                                            <td>{{ user.email }}</td>
+                                            <td>{{ user.role.name }}</td>
+                                            <td>{{ user.last_login }}</td>
+                                            {% if user.is_active %}
+                                                <td>Active</td>
+                                            {% else %}
+                                                <td>InActive</td>
+                                            {% endif %}
+                                            <td>
+                                                <div class="d-flex align-items-center list-action">
+                                                    <button type="button"
+                                                            class="btn btn-primary rounded-pill mt-2 mr-2"
+                                                            onClick="showProduct({{ user.id }})"
+                                                            data-toggle="modal"
+                                                            data-target="#Show-Product">
+                                                        <i class="ri-eye-line mr-0"></i>
+                                                    </button>
+                                                    {% if 'EDUS' in request.session.permission_codes or request.user.is_superuser %}
+                                                        <button type="button"
+                                                                class="btn btn-success rounded-pill mt-2 mr-2"
+                                                                onClick="editProduct({{ user.id }})"
+                                                                data-toggle="modal"
+                                                                data-target="#Edit-Product">
+                                                            <i class="ri-pencil-line mr-0"></i>
+                                                        </button>
+                                                    {% endif %}
+                                                    {% if 'DEUS' in request.session.permission_codes or request.user.is_superuser %}
+                                                        <button type="button"
+                                                                class="btn btn-secondary rounded-pill mt-2"
+                                                                onClick="deleteProduct({{ user.id }})"
+                                                                data-toggle="modal"
+                                                                data-target="#Delete-Product">
+                                                            <i class="ri-delete-bin-line mr-0"></i>
+                                                        </button>
+                                                    {% endif %}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Page end  -->
+            </div>
+        </div>
+    </div>
+    <!-- Wrapper END -->
+</body>
+{% endblock body %}
+{% block jquery %}
+    <script>
+        $(document).ready(function() {
+            document.getElementById('user').className = "iq-submenu expand";
+            document.getElementById('users').className = "font-weight-bold active";
+        });
+    </script>
+{% endblock jquery %}

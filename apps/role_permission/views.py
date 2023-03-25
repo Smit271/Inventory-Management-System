@@ -5,10 +5,10 @@ from django.contrib import messages
 from role_permission.models import (
     Permissions, Roles
 )
-from authentication.models import (
+from accounts.models import (
     User
 )
-from authentication.decorators import (
+from accounts.decorators import (
     login_required, check_user_permissions
 )
 

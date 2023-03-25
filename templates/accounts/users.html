@@ -72,7 +72,7 @@
                                                             data-target="#Show-Product">
                                                         <i class="ri-eye-line mr-0"></i>
                                                     </button>
-                                                    {% if 'EDUS' in request.session.permission_codes %}
+                                                    {% if 'EDUS' in request.session.permission_codes or request.user.is_superuser %}
                                                         <button type="button"
                                                                 class="btn btn-success rounded-pill mt-2 mr-2"
                                                                 onClick="editProduct({{ user.id }})"
@@ -81,7 +81,7 @@
                                                             <i class="ri-pencil-line mr-0"></i>
                                                         </button>
                                                     {% endif %}
-                                                    {% if 'DEUS' in request.session.permission_codes %}
+                                                    {% if 'DEUS' in request.session.permission_codes or request.user.is_superuser %}
                                                         <button type="button"
                                                                 class="btn btn-secondary rounded-pill mt-2"
                                                                 onClick="deleteProduct({{ user.id }})"

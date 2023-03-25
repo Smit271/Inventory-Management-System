@@ -6,7 +6,7 @@ from django.db.models import F
 from products.models import (
     Products, DeviceType, Location
 )
-from authentication.decorators import (
+from accounts.decorators import (
     login_required, check_user_permissions
 )
 

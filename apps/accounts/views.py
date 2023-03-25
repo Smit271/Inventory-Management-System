@@ -29,7 +29,7 @@ def dashboard(request):
 def login_view(request):
     if request.method == 'GET':
         logout(request)
-        return render(request, 'authentication/login.html')
+        return render(request, 'accounts/login.html')
     else:
         user_obj = User.objects.filter(
             email=request.POST['email']
@@ -37,19 +37,20 @@ def login_view(request):
 
         if not user_obj:
             messages.warning(request, message="Email is not registered.")
-            return render(request, 'authentication/login.html')
+            return render(request, 'accounts/login.html')
         else:
             if user_obj.check_password(request.POST['password']):
                 # STORING PERMISSION CODES IN SESSION FOR HTML VALIDATION
-                request.session['permission_codes'] = [
-                    perms['code'] for perms in user_obj.role.permissions.values('code')
-                ]
+                if not user_obj.is_superuser:
+                    request.session['permission_codes'] = [
+                        perms['code'] for perms in user_obj.role.permissions.values('code')
+                    ]
                 # LOGIN
                 login(request, user_obj)
                 return redirect('dashboard')
             else:
                 messages.warning(request, message="Wrong credentials.")
-                return render(request, 'authentication/login.html')
+                return render(request, 'accounts/login.html')
 
 
 @login_required
@@ -61,7 +62,7 @@ def users(request):
     context = {
         'data': user_objs
     }
-    return render(request, 'authentication/users.html', context=context)
+    return render(request, 'accounts/users.html', context=context)
 
 
 @login_required
@@ -71,7 +72,7 @@ def add_user(request):
     context = {
         'roles': roles_objs
     }
-    return render(request, 'authentication/add_user.html', context)
+    return render(request, 'accounts/add_user.html', context)
 
 
 @login_required
@@ -88,7 +89,7 @@ def create_user(request):
         return redirect(users)
 
     check_mobile = User.objects.filter(
-        phone_number=request.POST['add_phone']
+        phone=request.POST['add_phone']
     )
     if check_mobile:
         messages.error(request, "Mobile number is already registered!")
@@ -103,11 +104,69 @@ def create_user(request):
         request.POST['add_pass']
     )
     user_obj.name = request.POST['add_name']
-    user_obj.phone_number = request.POST['add_phone']
+    user_obj.phone = request.POST['add_phone']
     user_obj.gender = request.POST['add_gender']
     user_obj.role = role_obj
     user_obj.save()
 
     messages.success(request, "User is created successfully.")
 
-    return redirect(add_user)
+    return redirect(users)
+
+
+@login_required
+@check_user_permissions(permission_code="VIEM")
+def employees(request):
+    employee_objs = User.objects.filter(
+        is_superuser=False,
+        role__name = 'Employee'
+    ).all()
+    context = {
+        'data': employee_objs
+    }
+    return render(request, 'accounts/employees.html', context=context)
+
+
+@login_required
+@check_user_permissions(permission_code="ADEM")
+def add_employee(request):
+    return render(request, 'accounts/add_employee.html')
+
+
+@login_required
+@check_user_permissions(permission_code="ADEM")
+def create_employee(request):
+    print("===> request.POST: ", request.POST)
+
+    # CHECKING FOR UNIQUE EMAIL & MOBILE NUMBER
+    check_mail = User.objects.filter(
+        email=request.POST['add_email']
+    )
+    if check_mail:
+        messages.error(request, "Email is already registered!")
+        return redirect(users)
+
+    check_mobile = User.objects.filter(
+        phone=request.POST['add_phone']
+    )
+    if check_mobile:
+        messages.error(request, "Mobile number is already registered!")
+        return redirect(users)
+
+    # role_obj = Roles.objects.filter(
+    #     id=request.POST['add_role']
+    # ).first()
+
+    employee_obj = User.objects.create_employee(
+        request.POST['add_email'],
+        request.POST['add_pass']
+    )
+    employee_obj.name = request.POST['add_name']
+    employee_obj.phone = request.POST['add_phone']
+    employee_obj.gender = request.POST['add_gender']
+    # employee_obj.role = role_obj
+    employee_obj.save()
+
+    messages.success(request, "Employee is created successfully.")
+
+    return redirect(users)
