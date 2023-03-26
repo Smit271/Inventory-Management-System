@@ -50,3 +50,6 @@ class User(AbstractUser):
 
     class Meta:
         db_table = "users"
+
+
+# class Employee(models.Model):

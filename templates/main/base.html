@@ -242,12 +242,11 @@
                                 </ul>
                             </li>
                         {% endif %}
+                        
                         <!-- Employee -->
-
-                        <!-- User -->
                         {% if 'VIEM' in request.session.permission_codes or request.user.is_superuser or 'ADUS' in request.session.permission_codes or request.user.is_superuser %}
                             <li class="people">
-                                <a href="#user"
+                                <a href="#employee"
                                    class="collapsed"
                                    data-toggle="collapse"
                                    aria-expanded="false">
@@ -267,7 +266,7 @@
                                         <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                                         <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                                     </svg>
-                                    <span class="ml-4">Users</span>
+                                    <span class="ml-4">Employees</span>
                                     <svg class="svg-icon iq-arrow-right arrow-active"
                                          width="20"
                                          height="20"
@@ -282,7 +281,7 @@
                                         <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
                                     </svg>
                                 </a>
-                                <ul id="user"
+                                <ul id="employee"
                                     class="iq-submenu collapse"
                                     data-parent="#iq-sidebar-toggle">
                                     {% if 'VIEM' in request.session.permission_codes or request.user.is_superuser %}
