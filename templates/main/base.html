@@ -285,14 +285,14 @@
                                     class="iq-submenu collapse"
                                     data-parent="#iq-sidebar-toggle">
                                     {% if 'VIEM' in request.session.permission_codes or request.user.is_superuser %}
-                                        <li id="users">
+                                        <li id="employees">
                                             <a href="{% url 'employees' %}">
                                                 <i class="las la-minus"></i><span>Employees</span>
                                             </a>
                                         </li>
                                     {% endif %}
                                     {% if 'ADEM' in request.session.permission_codes or request.user.is_superuser %}
-                                        <li id="add_user">
+                                        <li id="add_employee">
                                             <a href="{% url 'add_employee' %}">
                                                 <i class="las la-minus"></i><span>Add Employee</span>
                                             </a>

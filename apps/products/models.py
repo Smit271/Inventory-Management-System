@@ -68,6 +68,8 @@ class Products(models.Model):
     ram = models.CharField(max_length=255)
     memory = models.CharField(max_length=255)
     assigned = models.CharField(max_length=255)
+    # assigned = models.ForeignKey('accounts.User', on_delete=models.SET_NULL,
+    #                              related_name='%(class)s_created_by', null=True, blank=True)
     additional_comments = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_delete = models.BooleanField(default=False)

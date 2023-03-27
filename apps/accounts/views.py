@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, logout
 
-from .models import User
+from .models import (
+    User, Employee
+)
 from role_permission.models import (
     Roles,
 )
@@ -120,7 +122,7 @@ def create_user(request):
 def employees(request):
     employee_objs = User.objects.filter(
         is_superuser=False,
-        role__name = 'Employee'
+        role__name='Employee'
     ).all()
     context = {
         'data': employee_objs
@@ -131,7 +133,11 @@ def employees(request):
 @login_required
 @check_user_permissions(permission_code="ADEM")
 def add_employee(request):
-    return render(request, 'accounts/add_employee.html')
+    employee_objs = Employee.objects.values()
+    context = {
+        'employees': employee_objs
+    }
+    return render(request, 'accounts/add_employee.html', context=context)
 
 
 @login_required
@@ -158,15 +164,24 @@ def create_employee(request):
     #     id=request.POST['add_role']
     # ).first()
 
-    employee_obj = User.objects.create_employee(
+    user_obj = User.objects.create_employee(
         request.POST['add_email'],
         request.POST['add_pass']
     )
-    employee_obj.name = request.POST['add_name']
-    employee_obj.phone = request.POST['add_phone']
-    employee_obj.gender = request.POST['add_gender']
-    # employee_obj.role = role_obj
-    employee_obj.save()
+    user_obj.name = request.POST['add_name']
+    user_obj.phone = request.POST['add_phone']
+    user_obj.gender = request.POST['add_gender']
+    # user_obj.role = role_obj
+    user_obj.save()
+
+    # CREATING EMPLOYEE
+    employee_obj = Employee.objects.create(
+        user=user_obj,
+        emp_code=request.POST['add_emp_code'],
+        reporting_person=request.POST['add_reporting_person'] if 'add_reporting_person'\
+                        in request.POST else None,
+        created_by=request.user
+    )
 
     messages.success(request, "Employee is created successfully.")
 

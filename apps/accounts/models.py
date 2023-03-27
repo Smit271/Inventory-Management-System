@@ -44,6 +44,8 @@ class User(AbstractUser):
             'role': self.role,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
+            'created_by': self.created_by.values(),
+            'updated_by': self.updated_by.values(),
             'date_joined': self.date_joined,
         }
 
@@ -54,6 +56,52 @@ class User(AbstractUser):
 
     class Meta:
         db_table = "users"
+        # constraints = [
+        #     models.UniqueConstraint(
+        #         fields=['email', 'is_delete', 'is_active'], name='unique_item'),
+        # ]
 
 
-# class Employee(models.Model):
+class Employee(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    emp_code = models.CharField(max_length=25, unique=True)
+    # designation = models.ForeignKey(
+    #     Designation, on_delete=models.SET_NULL, null=True)
+    # department = models.ForeignKey(
+    #     Department, on_delete=models.SET_NULL, null=True)
+    reporting_person = models.ForeignKey(
+        'self', on_delete=models.SET_NULL, null=True)
+    is_active = models.BooleanField(default=True)
+    is_delete = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(
+        'accounts.User', on_delete=models.SET_NULL, related_name='%(class)s_created_by', null=True, blank=True)
+    updated_by = models.ForeignKey(
+        'accounts.User', on_delete=models.SET_NULL, related_name='%(class)s_updated_by', null=True, blank=True)
+
+    # CUSTOM OBJECT MANAGER
+    objects = CustomUserManager()
+
+    def __str__(self):
+        return self.user.email
+
+    def get_full_name(self):
+        return self.user.name
+
+    def get_employee_details(self):
+        return {
+            'id': self.id,
+            'name': self.user.name,
+            'emp_code': self.emp_code,
+            'reporting_person': self.reporting_person.values(),
+            'email': self.user.email,
+            'phone': self.user.phone,
+            'role': self.user.role,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'date_joined': self.user.date_joined,
+        }
+
+    class Meta:
+        db_table = "employees"
