@@ -10,6 +10,10 @@ class Permissions(models.Model):
     is_delete = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(
+        'accounts.User', on_delete=models.SET_NULL, related_name='%(class)s_created_by', null=True, blank=True)
+    updated_by = models.ForeignKey(
+        'accounts.User', on_delete=models.SET_NULL, related_name='%(class)s_updated_by', null=True, blank=True)
 
     objects = PermissionManager()
 
@@ -30,6 +34,10 @@ class Roles(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
     is_delete = models.BooleanField(default=False)
+    created_by = models.ForeignKey(
+        'accounts.User', on_delete=models.SET_NULL, related_name='%(class)s_created_by', null=True, blank=True)
+    updated_by = models.ForeignKey(
+        'accounts.User', on_delete=models.SET_NULL, related_name='%(class)s_updated_by', null=True, blank=True)
 
     objects = RolesManager()
 

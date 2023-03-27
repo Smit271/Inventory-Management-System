@@ -18,6 +18,10 @@ class User(AbstractUser):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     date_joined = models.DateTimeField(default=timezone.now)
+    created_by = models.ForeignKey(
+        'accounts.User', on_delete=models.SET_NULL, related_name='%(class)s_created_by', null=True, blank=True)
+    updated_by = models.ForeignKey(
+        'accounts.User', on_delete=models.SET_NULL, related_name='%(class)s_updated_by', null=True, blank=True)
 
     # CUSTOM OBJECT MANAGER
     objects = CustomUserManager()

@@ -42,6 +42,7 @@ def add_permission_data(request):
         name=request.POST['add_name'],
         code=request.POST['add_code'],
         table_name=request.POST['add_table_name'],
+        created_by=request.user
     )
     messages.success(request, "Permission has been added.")
     return redirect(permission)
@@ -56,6 +57,7 @@ def edit_permission_data(request):
     permission_obj.name = request.POST['edit_name']
     permission_obj.code = request.POST['edit_code']
     permission_obj.table_name = request.POST['edit_table_name']
+    permission_obj.updated_by = request.user
     permission_obj.save()
 
     messages.success(request, "Permission has been updated.")
@@ -112,7 +114,7 @@ def add_role(request):
 @check_user_permissions(permission_code="ADRO")
 def create_role(request):
     if request.method == 'POST':
-        print("===> request.POST: ", request.POST)
+        # print("===> request.POST: ", request.POST)
         permission_ids = dict(request.POST)['permissions']
         role_obj = Roles.objects.create(
             name=request.POST['add_name'],
@@ -145,6 +147,7 @@ def edit_role_data(request):
     permission_ids = dict(request.POST)['edit_permissions']
     role_obj.name = request.POST['edit_name']
     role_obj.permissions.set(permission_ids)
+    role_obj.updated_by = request.user
     role_obj.save()
 
     messages.success(request, "Role has been updated.")

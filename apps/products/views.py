@@ -66,6 +66,7 @@ def add_product_data(request):
         memory=request.POST['add_memory'],
         assigned=request.POST['add_assigned'],
         additional_comments=request.POST['add_additional_comments'],
+        created_by=request.user
     )
     messages.success(request, "Product has been added.")
     return redirect(home)
@@ -87,6 +88,7 @@ def edit_product_data(request):
     product_obj.memory = request.POST['edit_memory']
     product_obj.assigned = request.POST['edit_assigned']
     product_obj.additional_comments = request.POST['edit_additional_comments']
+    product_obj.updated_by = request.user
     product_obj.save()
 
     messages.success(request, "Product has been updated.")
@@ -133,6 +135,7 @@ def add_device_type_data(request):
     DeviceType.objects.create(
         name=request.POST['add_name'],
         code=request.POST['add_code'],
+        created_by=request.user
     )
     messages.success(request, "Device Type has been added.")
     return redirect(device_type)
@@ -141,12 +144,13 @@ def add_device_type_data(request):
 @login_required
 @check_user_permissions(permission_code="EDDETY")
 def edit_device_type_data(request):
-    print("===> request.POST: ", request.POST)
+    # print("===> request.POST: ", request.POST)
     device_type_obj = DeviceType.objects.filter(
         id=request.POST['edit_id']).first()
 
     device_type_obj.name = request.POST['edit_name']
     device_type_obj.code = request.POST['edit_code']
+    device_type_obj.updated_by = request.user
     device_type_obj.save()
 
     messages.success(request, "Device type has been updated.")
@@ -193,6 +197,7 @@ def get_location_detail(request, id):
 def add_location_data(request):
     Location.objects.create(
         name=request.POST['add_name'],
+        created_by=request.user
     )
     messages.success(request, "Location has been added.")
 
@@ -202,11 +207,12 @@ def add_location_data(request):
 @login_required
 @check_user_permissions(permission_code="EDLO")
 def edit_location_data(request):
-    print("===> request.POST: ", request.POST)
+    # print("===> request.POST: ", request.POST)
     location_obj = Location.objects.filter(
         id=request.POST['edit_id']).first()
 
     location_obj.name = request.POST['edit_name']
+    location_obj.updated_by = request.user
     location_obj.save()
 
     messages.success(request, "Location has been updated.")

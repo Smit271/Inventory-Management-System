@@ -6,7 +6,7 @@ class CustomUserManager(UserManager):
         return super(CustomUserManager, self).get_queryset().filter(
             is_active=True,
             is_delete=False
-        )
+        ).select_related('created_by', 'updated_by')
 
     def create_user(self, email, password=None):
         if not email:

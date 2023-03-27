@@ -107,6 +107,7 @@ def create_user(request):
     user_obj.phone = request.POST['add_phone']
     user_obj.gender = request.POST['add_gender']
     user_obj.role = role_obj
+    user_obj.created_by = request.user
     user_obj.save()
 
     messages.success(request, "User is created successfully.")

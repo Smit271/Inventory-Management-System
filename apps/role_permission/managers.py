@@ -6,7 +6,7 @@ class PermissionManager(models.Manager):
         return super().get_queryset().filter(
             is_active=True,
             is_delete=False
-        )
+        ).select_related('created_by', 'updated_by')
 
 
 class RolesManager(models.Manager):
@@ -14,4 +14,4 @@ class RolesManager(models.Manager):
         return super().get_queryset().filter(
             is_active=True,
             is_delete=False
-        )
+        ).select_related('created_by', 'updated_by')
