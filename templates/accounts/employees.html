@@ -54,11 +54,11 @@
                                 <tbody>
                                     {% for user in data %}
                                         <tr>
-                                            <td>{{ user.name }}</td>
-                                            <td>{{ user.email }}</td>
-                                            <td>{{ user.role.name }}</td>
-                                            <td>{{ user.last_login }}</td>
-                                            {% if user.is_active %}
+                                            <td>{{ user.user__name }}</td>
+                                            <td>{{ user.user__email }}</td>
+                                            <td>{{ user.emp_code }}</td>
+                                            <td>{{ user.user__last_login }}</td>
+                                            {% if user.user__is_active %}
                                                 <td>Active</td>
                                             {% else %}
                                                 <td>InActive</td>
@@ -109,8 +109,8 @@
 {% block jquery %}
     <script>
         $(document).ready(function() {
-            document.getElementById('user').className = "iq-submenu expand";
-            document.getElementById('users').className = "font-weight-bold active";
+            document.getElementById('employee').className = "iq-submenu expand";
+            document.getElementById('employees').className = "font-weight-bold active";
         });
     </script>
 {% endblock jquery %}

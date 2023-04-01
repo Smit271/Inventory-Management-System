@@ -3,12 +3,14 @@ from django.contrib.auth.models import AbstractUser
 from .managers import CustomUserManager
 from django.utils import timezone
 from role_permission.models import Roles
+import uuid
 
 
 class User(AbstractUser):
     username = None
     name = models.CharField(max_length=255, null=True)
     email = models.EmailField(unique=True)
+    deleted_email = models.EmailField()
     phone = models.CharField(max_length=50)
     role = models.ForeignKey(Roles, on_delete=models.CASCADE, default=None, null=True,
                              db_constraint=False, related_name='role_user')
@@ -102,6 +104,17 @@ class Employee(models.Model):
             'updated_at': self.updated_at,
             'date_joined': self.user.date_joined,
         }
+
+    def delete(self, *args, **kwargs):
+        if self.is_delete:
+            return
+        self.is_delete = True
+        self.is_active = False
+        self.user.is_delete = True
+        self.user.is_active = False
+        self.user.deleted_email = self.user.email
+        self.user.email = f'deleted_{str(uuid.uuid4())}@example.com'
+        self.save()
 
     class Meta:
         db_table = "employees"

@@ -120,10 +120,15 @@ def create_user(request):
 @login_required
 @check_user_permissions(permission_code="VIEM")
 def employees(request):
-    employee_objs = User.objects.filter(
-        is_superuser=False,
-        role__name='Employee'
-    ).all()
+    employee_objs = Employee.objects.filter(
+    ).values(
+        'id',
+        'user__name',
+        'user__email',
+        'user__is_active',
+        'user__last_login',
+        'emp_code'
+    )
     context = {
         'data': employee_objs
     }
@@ -133,7 +138,7 @@ def employees(request):
 @login_required
 @check_user_permissions(permission_code="ADEM")
 def add_employee(request):
-    employee_objs = Employee.objects.values()
+    employee_objs = Employee.objects.all()
     context = {
         'employees': employee_objs
     }
@@ -160,6 +165,13 @@ def create_employee(request):
         messages.error(request, "Mobile number is already registered!")
         return redirect(users)
 
+    check_emp_code = Employee.objects.filter(
+        emp_code=request.POST['add_emp_code']
+    )
+    if check_emp_code:
+        messages.error(request, "Employee code is already taken")
+        return redirect(users)
+    
     # role_obj = Roles.objects.filter(
     #     id=request.POST['add_role']
     # ).first()
@@ -171,7 +183,6 @@ def create_employee(request):
     user_obj.name = request.POST['add_name']
     user_obj.phone = request.POST['add_phone']
     user_obj.gender = request.POST['add_gender']
-    # user_obj.role = role_obj
     user_obj.save()
 
     # CREATING EMPLOYEE
@@ -185,4 +196,4 @@ def create_employee(request):
 
     messages.success(request, "Employee is created successfully.")
 
-    return redirect(users)
+    return redirect(employees)

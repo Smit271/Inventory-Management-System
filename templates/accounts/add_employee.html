@@ -96,7 +96,7 @@
                                                         </option>
                                                         {% for person in employees %}
                                                             <option value="{{ person.id }}">
-                                                                {{ person.name }}
+                                                                {{ person.user.name }}
                                                             </option>
                                                         {% endfor %}
                                                     </select>
