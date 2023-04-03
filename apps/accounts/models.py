@@ -63,6 +63,15 @@ class User(AbstractUser):
         #         fields=['email', 'is_delete', 'is_active'], name='unique_item'),
         # ]
 
+    def delete(self, *args, **kwargs):
+        if self.is_delete:
+            return
+        self.is_delete = True
+        self.is_active = False
+        self.deleted_email = self.email
+        self.email = f'deleted_{str(uuid.uuid4())}@example.com'
+        self.save()
+
 
 class Employee(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

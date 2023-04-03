@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from django.contrib import messages
 from django.contrib.auth import login, logout
 
@@ -61,8 +62,11 @@ def users(request):
     user_objs = User.objects.filter(
         is_superuser=False
     ).all()
+    role_objs = Roles.objects.all()
+
     context = {
-        'data': user_objs
+        'data': user_objs,
+        'roles': role_objs
     }
     return render(request, 'accounts/users.html', context=context)
 
@@ -80,7 +84,7 @@ def add_user(request):
 @login_required
 @check_user_permissions(permission_code="ADUS")
 def create_user(request):
-    print("===> request.POST: ", request.POST)
+    # print("===> request.POST: ", request.POST)
 
     # CHECKING FOR UNIQUE EMAIL & MOBILE NUMBER
     check_mail = User.objects.filter(
@@ -118,6 +122,48 @@ def create_user(request):
 
 
 @login_required
+def get_user_detail(request, id):
+    user_obj = list(User.objects.filter(
+        id=id
+    ).values(
+        'id', 'name', 'email',
+        'phone', 'role_id', 'role__name',
+        'gender', 'is_active'
+    ))
+    return JsonResponse(user_obj, safe=False)
+
+
+@login_required
+@check_user_permissions(permission_code="DEUS")
+def delete_user(request):
+    user_obj = User.objects.filter(id=request.POST['delete_id']).first()
+    user_obj.delete()
+
+    messages.success(request, "User has been deleted.")
+
+    return redirect(users)
+
+
+@login_required
+@check_user_permissions(permission_code="EDUS")
+def edit_user_data(request):
+    # print("===> request.POST: ", request.POST)
+    user_obj = User.objects.filter(id=request.POST['edit_id']).first()
+
+    user_obj.role = Roles.objects.filter(
+        id=request.POST['edit_role'][0]).first()
+    user_obj.name = request.POST['edit_name']
+    user_obj.gender = request.POST['edit_gender']
+    user_obj.is_active = request.POST['edit_is_active']
+    user_obj.updated_by = request.user
+    user_obj.save()
+
+    messages.success(request, "User has been updated.")
+
+    return redirect(users)
+
+
+@login_required
 @check_user_permissions(permission_code="VIEM")
 def employees(request):
     employee_objs = Employee.objects.filter(
@@ -148,7 +194,7 @@ def add_employee(request):
 @login_required
 @check_user_permissions(permission_code="ADEM")
 def create_employee(request):
-    print("===> request.POST: ", request.POST)
+    # print("===> request.POST: ", request.POST)
 
     # CHECKING FOR UNIQUE EMAIL & MOBILE NUMBER
     check_mail = User.objects.filter(
@@ -171,7 +217,7 @@ def create_employee(request):
     if check_emp_code:
         messages.error(request, "Employee code is already taken")
         return redirect(users)
-    
+
     # role_obj = Roles.objects.filter(
     #     id=request.POST['add_role']
     # ).first()
@@ -189,8 +235,8 @@ def create_employee(request):
     employee_obj = Employee.objects.create(
         user=user_obj,
         emp_code=request.POST['add_emp_code'],
-        reporting_person=request.POST['add_reporting_person'] if 'add_reporting_person'\
-                        in request.POST else None,
+        reporting_person=request.POST['add_reporting_person'] if 'add_reporting_person'
+        in request.POST else None,
         created_by=request.user
     )
 

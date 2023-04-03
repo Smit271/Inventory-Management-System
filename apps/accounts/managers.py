@@ -4,7 +4,7 @@ from role_permission.models import Roles
 class CustomUserManager(UserManager):
     def get_queryset(self):
         return super(CustomUserManager, self).get_queryset().filter(
-            is_active=True,
+            # is_active=True,
             is_delete=False
         ).select_related('created_by', 'updated_by')
 
