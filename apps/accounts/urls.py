@@ -5,6 +5,8 @@ from .views import (
     create_user, users, delete_user,
     get_user_detail, edit_user_data,
     employees, add_employee, create_employee,
+    get_employee_detail, delete_employee,
+    edit_employee_data
 )
 
 urlpatterns = [
@@ -23,4 +25,7 @@ urlpatterns = [
     path('employees', employees, name='employees'),
     path('add_employee', add_employee, name='add_employee'),
     path('create_employee', create_employee, name='create_employee'),
+    path('get_employee_detail/<int:id>', get_employee_detail, name='get_employee_detail'),
+    path('delete_employee', delete_employee, name='delete_employee'),
+    path('edit_employee_data', edit_employee_data, name='edit_employee_data'),
 ]

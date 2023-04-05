@@ -166,6 +166,7 @@ def edit_user_data(request):
 @login_required
 @check_user_permissions(permission_code="VIEM")
 def employees(request):
+    roles_obj = Roles.objects.all()
     employee_objs = Employee.objects.filter(
     ).values(
         'id',
@@ -176,7 +177,8 @@ def employees(request):
         'emp_code'
     )
     context = {
-        'data': employee_objs
+        'data': employee_objs,
+        'roles': roles_obj
     }
     return render(request, 'accounts/employees.html', context=context)
 
@@ -243,3 +245,49 @@ def create_employee(request):
     messages.success(request, "Employee is created successfully.")
 
     return redirect(employees)
+
+
+@login_required
+def get_employee_detail(request, id):
+    employee_obj = list(Employee.objects.filter(
+        id=id
+    ).values(
+        'id', 'user__name', 'user__email',
+        'user__phone', 'user__gender',
+        'is_active', 'user__role_id',
+        'reporting_person', 'emp_code'
+    ))
+    return JsonResponse(employee_obj, safe=False)
+
+
+@login_required
+@check_user_permissions(permission_code="DEEM")
+def delete_employee(request):
+    employee_obj = Employee.objects.filter(
+        id=request.POST['delete_id']).first()
+    employee_obj.delete()
+
+    messages.success(request, "Employee has been deleted.")
+
+    return redirect(employees)
+
+
+@login_required
+@check_user_permissions(permission_code="EDEM")
+def edit_employee_data(request):
+    # print("===> request.POST: ", request.POST)
+    employee_obj = Employee.objects.filter(id=request.POST['edit_id']).first()
+
+    employee_obj.user.role = Roles.objects.filter(
+        id=request.POST['edit_role'][0]).first()
+    employee_obj.user.name = request.POST['edit_name']
+    employee_obj.emp_code = request.POST['edit_emp_code']
+    employee_obj.user.gender = request.POST['edit_gender']
+    employee_obj.is_active = request.POST['edit_is_active']
+    employee_obj.updated_by = request.user
+    employee_obj.save()
+    employee_obj.user.save()
+
+    messages.success(request, "User has been updated.")
+
+    return redirect(users)
