@@ -1,6 +1,7 @@
 from django.contrib.auth.models import BaseUserManager, UserManager
 from role_permission.models import Roles
 
+
 class CustomUserManager(UserManager):
     def get_queryset(self):
         return super(CustomUserManager, self).get_queryset().filter(
@@ -10,7 +11,7 @@ class CustomUserManager(UserManager):
 
     def create_user(self, email, password=None):
         if not email:
-            msg = 'Users must have an email address'
+            msg = 'User must have an email address'
             raise ValueError(msg)
 
         user = self.model(email=UserManager.normalize_email(email))
@@ -29,12 +30,13 @@ class CustomUserManager(UserManager):
 
     def create_employee(self, email, password=None):
         if not email:
-            msg = 'Users must have an email address'
+            msg = 'User must have an email address'
             raise ValueError(msg)
 
         user = self.model(email=UserManager.normalize_email(email))
 
         user.set_password(password)
-        user.role = Roles.objects.filter(name="Employee").first()
+        emp_role, _ = Roles.objects.get_or_create(name="Employee")
+        user.role = emp_role
         user.save()
         return user

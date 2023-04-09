@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib import messages
 from django.contrib.auth import login, logout
+from django.views.decorators.http import require_http_methods
 
 from .models import (
     User, Employee
@@ -29,6 +30,7 @@ def dashboard(request):
     return render(request, 'main/dashboard.html', context=context)
 
 
+@require_http_methods(['GET', 'POST'])
 def login_view(request):
     if request.method == 'GET':
         logout(request)
@@ -213,6 +215,7 @@ def create_employee(request):
         messages.error(request, "Mobile number is already registered!")
         return redirect(users)
 
+    # CHECKING EMPLOYEE CODE FOR UNIQUE
     check_emp_code = Employee.objects.filter(
         emp_code=request.POST['add_emp_code']
     )
@@ -264,7 +267,9 @@ def get_employee_detail(request, id):
 @check_user_permissions(permission_code="DEEM")
 def delete_employee(request):
     employee_obj = Employee.objects.filter(
-        id=request.POST['delete_id']).first()
+        id=request.POST['delete_id']
+    ).first()
+
     employee_obj.delete()
 
     messages.success(request, "Employee has been deleted.")
@@ -276,7 +281,9 @@ def delete_employee(request):
 @check_user_permissions(permission_code="EDEM")
 def edit_employee_data(request):
     # print("===> request.POST: ", request.POST)
-    employee_obj = Employee.objects.filter(id=request.POST['edit_id']).first()
+    employee_obj = Employee.objects.filter(
+        id=request.POST['edit_id']
+    ).first()
 
     employee_obj.user.role = Roles.objects.filter(
         id=request.POST['edit_role'][0]).first()
@@ -288,6 +295,6 @@ def edit_employee_data(request):
     employee_obj.save()
     employee_obj.user.save()
 
-    messages.success(request, "User has been updated.")
+    messages.success(request, "Employee has been updated.")
 
-    return redirect(users)
+    return redirect(employees)

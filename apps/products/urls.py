@@ -5,7 +5,11 @@ from .views import (
     device_type, get_device_type_detail, add_device_type_data, edit_device_type_data,
     delete_device_type,
     location, get_location_detail, add_location_data, edit_location_data,
-    delete_location
+    delete_location,
+    designation, get_designation_detail, add_designation_data, edit_designation_data,
+    delete_designation,
+    department, get_department_detail, add_department_data, edit_department_data,
+    delete_department,
 )
 
 urlpatterns = [
@@ -34,4 +38,24 @@ urlpatterns = [
     path('add_location_data', add_location_data, name='add_location_data'),
     path('edit_location_data', edit_location_data, name='edit_location_data'),
     path('delete_location', delete_location, name='delete_location'),
+
+    # ----- Designation Type URLs ----- #
+    path('designation', designation, name='designation'),
+    path('get_designation_detail/<int:id>',
+         get_designation_detail, name='get_designation_detail'),
+    path('add_designation_data', add_designation_data,
+         name='add_designation_data'),
+    path('edit_designation_data', edit_designation_data,
+         name='edit_designation_data'),
+    path('delete_designation', delete_designation, name='delete_designation'),
+
+    # ----- Department Type URLs ----- #
+    path('department', department, name='department'),
+    path('get_department_detail/<int:id>',
+         get_department_detail, name='get_department_detail'),
+    path('add_department_data', add_department_data,
+         name='add_department_data'),
+    path('edit_department_data', edit_department_data,
+         name='edit_department_data'),
+    path('delete_department', delete_department, name='delete_department'),
 ]

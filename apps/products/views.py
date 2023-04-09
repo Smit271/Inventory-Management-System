@@ -4,7 +4,8 @@ from django.contrib import messages
 from django.db.models import F
 
 from products.models import (
-    Products, DeviceType, Location
+    Products, DeviceType, Location,
+    Designation, Department
 )
 from accounts.decorators import (
     login_required, check_user_permissions
@@ -170,7 +171,7 @@ def delete_device_type(request):
     return redirect(device_type)
 
 
-# Location Views
+# ---------- LOCATION VIEWS ----------
 @login_required
 @check_user_permissions(permission_code="VILO")
 def location(request):
@@ -230,3 +231,127 @@ def delete_location(request):
     messages.success(request, "Location has been deleted.")
 
     return redirect(location)
+
+
+# ---------- DESIGNATION VIEWS ----------
+@login_required
+@check_user_permissions(permission_code="VILO")
+def designation(request):
+    if request.method == 'GET':
+        designation_objs = Designation.objects.values()
+        context = {
+            "data": designation_objs,
+        }
+        return render(request, 'main/designation.html', context)
+
+
+@login_required
+def get_designation_detail(request, id):
+    designation_obj = list(Designation.objects.filter(
+        id=id
+    ).values(
+        'id', 'name'
+    ))
+    return JsonResponse(designation_obj, safe=False)
+
+
+@login_required
+@check_user_permissions(permission_code="ADLO")
+def add_designation_data(request):
+    Designation.objects.create(
+        name=request.POST['add_name'],
+        created_by=request.user
+    )
+    messages.success(request, "Designation has been added.")
+
+    return redirect(designation)
+
+
+@login_required
+@check_user_permissions(permission_code="EDLO")
+def edit_designation_data(request):
+    # print("===> request.POST: ", request.POST)
+    designation_obj = Designation.objects.filter(
+        id=request.POST['edit_id']).first()
+
+    designation_obj.name = request.POST['edit_name']
+    designation_obj.updated_by = request.user
+    designation_obj.save()
+
+    messages.success(request, "Designation has been updated.")
+
+    return redirect(designation)
+
+
+@login_required
+@check_user_permissions(permission_code="DELO")
+def delete_designation(request):
+    designation_obj = Designation.objects.filter(
+        id=request.POST['delete_id']).first()
+    designation_obj.delete()
+
+    messages.success(request, "Designation has been deleted.")
+
+    return redirect(designation)
+
+
+# ---------- DEPARTMENT VIEWS ----------
+@login_required
+@check_user_permissions(permission_code="VILO")
+def department(request):
+    if request.method == 'GET':
+        department_objs = Department.objects.values()
+        context = {
+            "data": department_objs,
+        }
+        return render(request, 'main/department.html', context)
+
+
+@login_required
+def get_department_detail(request, id):
+    department_obj = list(Department.objects.filter(
+        id=id
+    ).values(
+        'id', 'name'
+    ))
+    return JsonResponse(department_obj, safe=False)
+
+
+@login_required
+@check_user_permissions(permission_code="ADLO")
+def add_department_data(request):
+    Department.objects.create(
+        name=request.POST['add_name'],
+        created_by=request.user
+    )
+    messages.success(request, "Department has been added.")
+
+    return redirect(department)
+
+
+@login_required
+@check_user_permissions(permission_code="EDLO")
+def edit_department_data(request):
+    # print("===> request.POST: ", request.POST)
+    department_obj = Department.objects.filter(
+        id=request.POST['edit_id']).first()
+
+    department_obj.name = request.POST['edit_name']
+    department_obj.updated_by = request.user
+    department_obj.save()
+
+    messages.success(request, "Department has been updated.")
+
+    return redirect(department)
+
+
+@login_required
+@check_user_permissions(permission_code="DELO")
+def delete_department(request):
+    department_obj = Department.objects.filter(
+        id=request.POST['delete_id']).first()
+    department_obj.delete()
+
+    messages.success(request, "Department has been deleted.")
+
+    return redirect(department)

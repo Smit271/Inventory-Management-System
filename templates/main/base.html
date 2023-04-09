@@ -112,6 +112,13 @@
                                         </a>
                                     </li>
                                 {% endif %}
+                                {% if 'VIDE' in request.session.permission_codes or request.user.is_superuser %}
+                                    <li id="list_designation">
+                                        <a href="{% url 'designation' %}">
+                                            <i class="las la-minus"></i><span>Designation</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
                                 {% if 'VIPR' in request.session.permission_codes or request.user.is_superuser %}
                                     <li id="list_product">
                                         <a href="{% url 'home' %}">

@@ -1,9 +1,12 @@
+import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from .managers import CustomUserManager
 from django.utils import timezone
+from .managers import CustomUserManager
 from role_permission.models import Roles
-import uuid
+from products.models import (
+    Designation, Department
+)
 
 
 class User(AbstractUser):
@@ -76,10 +79,10 @@ class User(AbstractUser):
 class Employee(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     emp_code = models.CharField(max_length=25, unique=True)
-    # designation = models.ForeignKey(
-    #     Designation, on_delete=models.SET_NULL, null=True)
-    # department = models.ForeignKey(
-    #     Department, on_delete=models.SET_NULL, null=True)
+    designation = models.ForeignKey(
+        Designation, on_delete=models.SET_NULL, null=True)
+    department = models.ForeignKey(
+        Department, on_delete=models.SET_NULL, null=True)
     reporting_person = models.ForeignKey(
         'self', on_delete=models.SET_NULL, null=True)
     is_active = models.BooleanField(default=True)

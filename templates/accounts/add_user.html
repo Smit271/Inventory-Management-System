@@ -56,7 +56,11 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Role *</label>
-                                                <select name="add_role" class="select2 selectpicker form-control" data-style="py-0">
+                                                <select name="add_role" class="select2 selectpicker form-control" 
+                                                        data-style="py-0"
+                                                        data-live-search="true" 
+                                                        data-size="6" 
+                                                        data-show-subtext="true">
                                                     <option value="" disabled selected>Select Role</option>
                                                     {% for role in roles %}
                                                         <option value="{{ role.id }}">{{ role.name }}</option>
