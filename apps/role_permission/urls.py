@@ -7,7 +7,7 @@ from .views import (
 )
 
 urlpatterns = [
-    # Permissions URLs
+    # ---------- PERMISSIONS URLS ----------
     path('permission', permission, name='permissions'),
     path('get_permission_detail/<int:id>',
          get_permission_detail, name='get_permission_detail'),
@@ -16,7 +16,7 @@ urlpatterns = [
          name='edit_permission_data'),
     path('delete_permission', delete_permission, name='delete_permission'),
 
-    # Role URLs
+    # ---------- ROLES URLS ----------
     path('role', role, name='role'),
     path('add_role', add_role, name='add_role'),
     path('create_role', create_role, name='create_role'),

@@ -13,7 +13,7 @@ from accounts.decorators import (
 )
 
 
-# Permissions Views
+# ---------- PERMISSIONS VIEWS ----------
 @login_required
 @check_user_permissions(permission_code="VIPE")
 def permission(request):
@@ -79,6 +79,7 @@ def delete_permission(request):
     return redirect(permission)
 
 
+# ---------- ROLES VIEWS ----------
 @login_required
 @check_user_permissions(permission_code="VIRO")
 def role(request):
@@ -114,7 +115,6 @@ def add_role(request):
 @check_user_permissions(permission_code="ADRO")
 def create_role(request):
     if request.method == 'POST':
-        # print("===> request.POST: ", request.POST)
         permission_ids = dict(request.POST)['permissions']
         role_obj = Roles.objects.create(
             name=request.POST['add_name'],

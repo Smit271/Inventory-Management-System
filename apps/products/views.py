@@ -145,7 +145,6 @@ def add_device_type_data(request):
 @login_required
 @check_user_permissions(permission_code="EDDETY")
 def edit_device_type_data(request):
-    # print("===> request.POST: ", request.POST)
     device_type_obj = DeviceType.objects.filter(
         id=request.POST['edit_id']).first()
 
@@ -208,7 +207,6 @@ def add_location_data(request):
 @login_required
 @check_user_permissions(permission_code="EDLO")
 def edit_location_data(request):
-    # print("===> request.POST: ", request.POST)
     location_obj = Location.objects.filter(
         id=request.POST['edit_id']).first()
 
@@ -270,7 +268,6 @@ def add_designation_data(request):
 @login_required
 @check_user_permissions(permission_code="EDLO")
 def edit_designation_data(request):
-    # print("===> request.POST: ", request.POST)
     designation_obj = Designation.objects.filter(
         id=request.POST['edit_id']).first()
 
@@ -332,7 +329,6 @@ def add_department_data(request):
 @login_required
 @check_user_permissions(permission_code="EDLO")
 def edit_department_data(request):
-    # print("===> request.POST: ", request.POST)
     department_obj = Department.objects.filter(
         id=request.POST['edit_id']).first()
 

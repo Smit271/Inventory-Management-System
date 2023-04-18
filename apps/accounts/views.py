@@ -16,6 +16,10 @@ from products.models import (
 from .decorators import login_required, check_user_permissions
 
 
+def error_404(request, exception):
+    return render(request, 'handlers/404.html')
+
+
 @login_required
 def dashboard(request):
     product_count = Products.objects.count()
@@ -86,7 +90,6 @@ def add_user(request):
 @login_required
 @check_user_permissions(permission_code="ADUS")
 def create_user(request):
-    # print("===> request.POST: ", request.POST)
 
     # CHECKING FOR UNIQUE EMAIL & MOBILE NUMBER
     check_mail = User.objects.filter(
@@ -149,7 +152,6 @@ def delete_user(request):
 @login_required
 @check_user_permissions(permission_code="EDUS")
 def edit_user_data(request):
-    # print("===> request.POST: ", request.POST)
     user_obj = User.objects.filter(id=request.POST['edit_id']).first()
 
     user_obj.role = Roles.objects.filter(
@@ -198,8 +200,6 @@ def add_employee(request):
 @login_required
 @check_user_permissions(permission_code="ADEM")
 def create_employee(request):
-    # print("===> request.POST: ", request.POST)
-
     # CHECKING FOR UNIQUE EMAIL & MOBILE NUMBER
     check_mail = User.objects.filter(
         email=request.POST['add_email']
@@ -223,10 +223,6 @@ def create_employee(request):
         messages.error(request, "Employee code is already taken")
         return redirect(users)
 
-    # role_obj = Roles.objects.filter(
-    #     id=request.POST['add_role']
-    # ).first()
-
     user_obj = User.objects.create_employee(
         request.POST['add_email'],
         request.POST['add_pass']
@@ -237,7 +233,7 @@ def create_employee(request):
     user_obj.save()
 
     # CREATING EMPLOYEE
-    employee_obj = Employee.objects.create(
+    Employee.objects.create(
         user=user_obj,
         emp_code=request.POST['add_emp_code'],
         reporting_person=request.POST['add_reporting_person'] if 'add_reporting_person'
@@ -280,7 +276,6 @@ def delete_employee(request):
 @login_required
 @check_user_permissions(permission_code="EDEM")
 def edit_employee_data(request):
-    # print("===> request.POST: ", request.POST)
     employee_obj = Employee.objects.filter(
         id=request.POST['edit_id']
     ).first()
