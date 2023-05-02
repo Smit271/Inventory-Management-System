@@ -14,6 +14,7 @@ from products.models import (
     Products
 )
 from .decorators import login_required, check_user_permissions
+from .task import send_mail_func
 
 
 def error_404(request, exception):
@@ -120,6 +121,12 @@ def create_user(request):
     user_obj.role = role_obj
     user_obj.created_by = request.user
     user_obj.save()
+
+    send_mail_func.delay(
+        email_address=user_obj.email,
+        subject="Account Creation",
+        message="Hello User, Your Account has been created successfully."
+    )
 
     messages.success(request, "User is created successfully.")
 
