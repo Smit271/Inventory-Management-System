@@ -1,0 +1,70 @@
+{% load static %}
+{% autoescape off %}
+    <!DOCTYPE html>
+    <html lang="eng">
+        <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>User Creation Creds Mail</title>
+        </head>
+        <body>
+            <div style="font-family: Helvetica,Arial,sans-serif;
+                        min-width:1000px;
+                        overflow:auto;
+                        line-height:2">
+                <div style="margin:50px auto;width:70%;padding:20px 0">
+                    <img src="" height="55px" alt="Not found!" style="margin-left: 12px">
+                    <div style="border-bottom:1px solid #eee">
+                        <a href="#"
+                           target="_blank"
+                           style="font-size:1.4em;
+                                  color: #00466a;
+                                  text-decoration:none;
+                                  font-weight:600">
+                            Inventory
+                        </a>
+                    </div>
+                    <div style="border-bottom:1px solid #eee"></div>
+                    <p style="font-size:1.1em">Hello,</p>
+                    <p>
+                        <b>Welcome {{ username }}</b>. <br/>
+                        Your Account has been created with {{ role }}, <br/>
+                        Kindly Use the following creds to login into our dashboard.<br/>
+                        Thank You
+                    </p>
+                    <h2 style="background: #00466a;
+                               margin: 0 auto;
+                               width: max-content;
+                               padding: 0 10px;
+                               color: #fff;
+                               border-radius: 4px">
+                        {{ email_address }}
+                    </h2>
+                    <h2 style="background: #00466a;
+                               margin: 0 auto;
+                               width: max-content;
+                               padding: 0 10px;
+                               color: #fff;
+                               border-radius: 4px">
+                        {{ password }}
+                    </h2>
+                    <p style="font-size:0.9em;">
+                        Regards,
+                        <br />
+                        Inventory
+                    </p>
+                    <hr style="border:none;border-top:1px solid #eee" />
+                    <div style="float:right;
+                                padding:8px 0;
+                                color:#aaa;
+                                font-size:0.8em;
+                                line-height:1;
+                                font-weight:300">
+                        <p>Smit Panchal</p>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </html>
+{% endautoescape %}

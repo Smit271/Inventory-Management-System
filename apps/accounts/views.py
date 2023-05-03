@@ -3,6 +3,8 @@ from django.http import JsonResponse
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.views.decorators.http import require_http_methods
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 from .models import (
     User, Employee
@@ -121,12 +123,30 @@ def create_user(request):
     user_obj.role = role_obj
     user_obj.created_by = request.user
     user_obj.save()
+    # -------------------- MAILING -----------------------#
+    try:
+        subject = 'Inventory - Account Creation'
+        html_message = render_to_string(
+            'mails/user_onboard.html',
+            {
+                'username': user_obj.name,
+                'email_address': user_obj.email,
+                'password': request.POST['add_pass'],
+                'role': role_obj.name
+            }
+        )
+        plain_message = strip_tags(html_message)
 
-    send_mail_func.delay(
-        email_address=user_obj.email,
-        subject="Account Creation",
-        message="Hello User, Your Account has been created successfully."
-    )
+        send_mail_func.delay(
+            email_address=user_obj.email,
+            subject=subject,
+            message=plain_message,
+            html_message=html_message
+        )
+
+    except Exception as ex:
+        print("===> Error from sending OTP email: ", ex)
+    # ----------------------------------------------------#
 
     messages.success(request, "User is created successfully.")
 
